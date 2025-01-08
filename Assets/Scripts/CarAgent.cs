@@ -279,8 +279,8 @@ public class CarAgent : Agent
         }
         if (lengthAtCurrentNode > 60)
         {
-            AddReward(-0.001f);
-            rTimeAtNode += -0.0001f;
+            AddReward(-0.002f);
+            rTimeAtNode += -0.0002f;
         }
 
 
@@ -292,8 +292,8 @@ public class CarAgent : Agent
         }
         else if (this.transform.localPosition.y < 0.06 )
         {
-            AddReward(-45.0f);
-            rFalling += -45f;
+            AddReward(-20.0f);
+            rFalling += -20f;
             EndEpisode();
         }
     }
