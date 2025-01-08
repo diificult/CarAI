@@ -109,7 +109,7 @@ public class CarAgent : Agent
             else if (Route[0] == CurrentNode) lengthAtCurrentNode++;
             else
            {
-                Debug.Log("Moved nodes");
+           /*     Debug.Log("Moved nodes");
                 if (Route[0] == CurrentNextNode)
                 {
                     AddReward(3f);
@@ -121,16 +121,12 @@ public class CarAgent : Agent
                     AddReward(-3f);
                     rIncorrectNode += -3f;
                     CurrentNextNode = Route[1];
-                }
+                }*/
                 lengthAtCurrentNode = 0;
                 CurrentNode = Route[0];
                 
             }
-            if (lengthAtCurrentNode > 60)
-            {
-                AddReward(-0.0005f);
-                rTimeAtNode += -0.0005f;
-            }
+
         }
         else lastChecked++;
     }
@@ -235,14 +231,18 @@ public class CarAgent : Agent
 
 
         //Velocity
-        sensor.AddObservation(gameObject.GetComponent<Rigidbody>().velocity.x /8.0f);
-        sensor.AddObservation(gameObject.GetComponent<Rigidbody>().velocity.z /8.0f);
+        sensor.AddObservation(gameObject.GetComponent<Rigidbody>().velocity.x / 18.0f);
+        sensor.AddObservation(gameObject.GetComponent<Rigidbody>().velocity.z /18.0f);
         sensor.AddObservation(Route[0].GridX / 15.0f);
         sensor.AddObservation(Route[0].GridY / 15.0f);
-      
+        sensor.AddObservation(transform.position.x / 150f);
+        sensor.AddObservation(transform.position.z / 150f);
         sensor.AddObservation(distance / 15.0f);
+        float speed = gameObject.GetComponent<Rigidbody>().velocity.magnitude / 18f;
+        sensor.AddObservation(speed);
+
         AddOneHotEncoding(sensor, Direction + 1, 4);
-        Debug.Log("Current Observatios: Vx " + gameObject.GetComponent<Rigidbody>().velocity.x / 8.0f + ", Vy" + gameObject.GetComponent<Rigidbody>().velocity.z /8.0f + ", PosX: " + (Route[0].GridX / 15.0f) + " PosY: " + (((float)Route[0].GridY) / 15.0f) + " Distance: " + (distance / 15.0f));
+       // Debug.Log("Current Observatios: Vx " + gameObject.GetComponent<Rigidbody>().velocity.x / 8.0f + ", Vy" + gameObject.GetComponent<Rigidbody>().velocity.z /8.0f + ", PosX: " + (Route[0].GridX / 15.0f) + " PosY: " + (((float)Route[0].GridY) / 15.0f) + " Distance: " + (distance / 15.0f));
         
        // sensor.AddObservation(FallenOff);
 
@@ -254,7 +254,7 @@ public class CarAgent : Agent
     {
       //  Debug.Log("Got an action");
         var continuousActions = actions.ContinuousActions;
-        GetComponent<CarControl>().CalculateDrive(continuousActions[0], continuousActions[1]);
+        GetComponent<CarControl>().UpdateValues(continuousActions[0], continuousActions[1]);
         base.OnActionReceived(actions);
 
         //Calculate rewards
@@ -268,7 +268,7 @@ public class CarAgent : Agent
         if (Route.Count < maxSteps)
         {
 
-            AddReward(3.1f * (maxSteps - Route.Count));
+            AddReward(3f * (maxSteps - Route.Count));
             rTowardsNode += 3.1f * (maxSteps - Route.Count);
             maxSteps = Route.Count;
         } else if (Route.Count > maxSteps)
@@ -277,8 +277,13 @@ public class CarAgent : Agent
             rAwayNode += -3 * (Route.Count - maxSteps);
             maxSteps = Route.Count; 
         }
+        if (lengthAtCurrentNode > 60)
+        {
+            AddReward(-0.001f);
+            rTimeAtNode += -0.0001f;
+        }
 
-        
+
         if (AtTarget)
         {
             AddReward(25.0f);
