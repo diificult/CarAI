@@ -1,0 +1,47 @@
+{
+    "CarAI": {
+        "checkpoints": [
+            {
+                "steps": 499991,
+                "file_path": "results\\CarAITest25\\CarAI\\CarAI-499991.onnx",
+                "reward": null,
+                "creation_time": 1736521441.932778,
+                "auxillary_file_paths": [
+                    "results\\CarAITest25\\CarAI\\CarAI-499991.pt"
+                ]
+            },
+            {
+                "steps": 933342,
+                "file_path": "results\\CarAITest25\\CarAI\\CarAI-933342.onnx",
+                "reward": null,
+                "creation_time": 1736524015.2018862,
+                "auxillary_file_paths": [
+                    "results\\CarAITest25\\CarAI\\CarAI-933342.pt"
+                ]
+            },
+            {
+                "steps": 936994,
+                "file_path": "results\\CarAITest25\\CarAI\\CarAI-936994.onnx",
+                "reward": null,
+                "creation_time": 1736524253.832305,
+                "auxillary_file_paths": [
+                    "results\\CarAITest25\\CarAI\\CarAI-936994.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 936994,
+            "file_path": "results\\CarAITest25\\CarAI.onnx",
+            "reward": null,
+            "creation_time": 1736524253.832305,
+            "auxillary_file_paths": [
+                "results\\CarAITest25\\CarAI\\CarAI-936994.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

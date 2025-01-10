@@ -43,8 +43,9 @@ public class CarAgent : Agent
 
     public Node CurrentNode;
     public Node CurrentNextNode;
-    public int lengthAtCurrentNode = 0;
+    public float timeAtCurrentNode = 0;
     [SerializeField] private float LastDistanceToNextNode;
+    [SerializeField] private float decayFactor = 0.1f;
 
     float rTowardsNode = 0f;
     float rAwayNode = 0f;
@@ -62,16 +63,24 @@ public class CarAgent : Agent
     public TextMeshProUGUI lblCorrectNode;
     public TextMeshProUGUI lblIncorrectNode;
     public TextMeshProUGUI lblTimeAtNode;
+    private Rigidbody rb;
 
     [SerializeField] bool TrainingWheels = true;
 
-
+    public void Awake()
+    {
+        Application.targetFrameRate = 30;
+        rb = GetComponent<Rigidbody>();
+    }
 
 
     public void FixedUpdate()
     {
-        if (GetComponent<Rigidbody>().velocity.y > vyMax) vyMax = GetComponent<Rigidbody>().velocity.z;
-        if (GetComponent<Rigidbody>().velocity.x > vxMax) vxMax = GetComponent<Rigidbody>().velocity.x;
+
+        /// DETERMINE MAX VELOCITY
+        // if (rb.velocity.y > vyMax) vyMax = GetComponent<Rigidbody>().velocity.z;
+        //   if (GetComponent<Rigidbody>().velocity.x > vxMax) vxMax = GetComponent<Rigidbody>().velocity.x;
+
         yPos.text = "Local Y Pos: " + this.transform.localPosition.y;
         Reward.text = "Current Reward: " + GetCumulativeReward();
         switch (Direction)
@@ -90,7 +99,7 @@ public class CarAgent : Agent
                 break;
         }
 
-        //TODO update these to work on events (check efficience of this as im thinking this may cause lag)
+        //TODO update these to work on events (check efficiency of this as im thinking this may cause lag)
         lblDistance.text = "Number of Nodes: " + distance;
         lblTowardsNode.text = "Towards Goal " + rTowardsNode;
         lblAwayNode.text = "Away from goal " + rAwayNode;
@@ -98,41 +107,34 @@ public class CarAgent : Agent
         lblAtTarget.text = "At Target " + rAtTarget;
         lblCorrectNode.text = "Training Wheels " + rTrainingWheels;
         lblIncorrectNode.text = "Incorrect Node " + rIncorrectNode;
-        lblTimeAtNode.text = " Time At Node " + rTimeAtNode;
+        lblTimeAtNode.text = "Time At Node " + rTimeAtNode;
 
-
-        if (lastChecked >= 10)
+        GetPath();
+        lastChecked = 0;
+        if (CurrentNextNode == null) CurrentNextNode = Route[1];
+        if (CurrentNode == null) CurrentNode = Route[0];
+        else if (Route[0] == CurrentNode) timeAtCurrentNode += Time.fixedDeltaTime;
+        else
         {
 
-            GetPath();
-            lastChecked = 0;
-            if (CurrentNextNode == null) CurrentNextNode = Route[1];
-            if (CurrentNode == null) CurrentNode = Route[0];
-            else if (Route[0] == CurrentNode) lengthAtCurrentNode++;
-            else
-            {
-
-                /*     Debug.Log("Moved nodes");
-                     if (Route[0] == CurrentNextNode)
-                     {
-                         AddReward(3f);
-                         rCorrectNode += 3f;
-                         CurrentNextNode = Route[1];
-                     }
-                     else
-                     {
-                         AddReward(-3f);
-                         rIncorrectNode += -3f;
-                         CurrentNextNode = Route[1];
-                     }*/
-                LastDistanceToNextNode = 0;
-                lengthAtCurrentNode = 0;
-                CurrentNode = Route[0];
-
-            }
+            /*     Debug.Log("Moved nodes");
+                 if (Route[0] == CurrentNextNode)
+                 {
+                     AddReward(3f);
+                     rCorrectNode += 3f;
+                     CurrentNextNode = Route[1];
+                 }
+                 else
+                 {
+                     AddReward(-3f);
+                     rIncorrectNode += -3f;
+                     CurrentNextNode = Route[1];
+                 }*/
+            LastDistanceToNextNode = 0;
+            timeAtCurrentNode = 0;
+            CurrentNode = Route[0];
 
         }
-        else lastChecked++;
     }
 
 
@@ -229,15 +231,17 @@ public class CarAgent : Agent
          */
 
 
+        Vector3 v = rb.velocity;
         //Velocity
-        sensor.AddObservation(gameObject.GetComponent<Rigidbody>().velocity.x / 18.0f);
-        sensor.AddObservation(gameObject.GetComponent<Rigidbody>().velocity.z / 18.0f);
+        sensor.AddObservation(v.x / 18.0f);
+        sensor.AddObservation(v.z / 18.0f);
         sensor.AddObservation(Route[0].GridX / 15.0f);
         sensor.AddObservation(Route[0].GridY / 15.0f);
         sensor.AddObservation(transform.position.x / 150f);
         sensor.AddObservation(transform.position.z / 150f);
+        sensor.AddObservation(LastDistanceToNextNode / 180f);
         sensor.AddObservation(distance / 15.0f);
-        float speed = gameObject.GetComponent<Rigidbody>().velocity.magnitude / 18f;
+        float speed = v.magnitude / 18f;
         sensor.AddObservation(speed);
 
         AddOneHotEncoding(sensor, Direction + 1, 4);
@@ -254,22 +258,52 @@ public class CarAgent : Agent
         //  Debug.Log("Got an action");
         var continuousActions = actions.ContinuousActions;
         GetComponent<CarControl>().UpdateValues(continuousActions[0], continuousActions[1]);
-        base.OnActionReceived(actions);
 
         //Calculate rewards
 
+        //TODO MOVE CALCULATIONS TO SEPERATE FUNCTIONS
+        
+        if (AtTarget)
+        {
+            AddReward(1f);
+            rAtTarget += 35f;
+            EndEpisode();
+        }
+        else if (this.transform.localPosition.y < 0.06)
+        {
+            AddReward(-16.0f / 35.0f);
+            rFalling += -16f;
+            EndEpisode();
+        }
         if (maxSteps == 0)
         {
             maxSteps = Route.Count;
         }
+        /*
         if (TrainingWheels)
         {
             float distanceToNextNode = Vector3.Distance(Route[1].transform.position, this.transform.position);
             if (LastDistanceToNextNode == 0) { LastDistanceToNextNode = distanceToNextNode; }
             else
             {
-                AddReward((LastDistanceToNextNode - distanceToNextNode) / 180f);
-                rTrainingWheels += (LastDistanceToNextNode - distanceToNextNode) / 180f;
+                AddReward((LastDistanceToNextNode - distanceToNextNode) / 50f);
+                rTrainingWheels += (LastDistanceToNextNode - distanceToNextNode) / 50f;
+                LastDistanceToNextNode = distanceToNextNode;
+            }
+        }
+        */
+
+        if (TrainingWheels)
+        {
+            float distanceToNextNode = Vector3.Distance(Route[1].transform.position, this.transform.position);
+            if (LastDistanceToNextNode == 0) { LastDistanceToNextNode = distanceToNextNode; }
+            else
+            {
+                float progressReward = ((LastDistanceToNextNode - distanceToNextNode) * Mathf.Exp(-timeAtCurrentNode * decayFactor)) / 100f;
+                AddReward(progressReward);
+                rTrainingWheels += progressReward;
+
+                // Update last distance
                 LastDistanceToNextNode = distanceToNextNode;
             }
         }
@@ -277,35 +311,29 @@ public class CarAgent : Agent
         if (Route.Count < maxSteps)
         {
 
-            AddReward(4f * (maxSteps - Route.Count));
-            rTowardsNode += 4f * (maxSteps - Route.Count);
+            AddReward(0.1f * (maxSteps - Route.Count));
+            rTowardsNode += 0.1f * (maxSteps - Route.Count);
             maxSteps = Route.Count;
         }
         else if (Route.Count > maxSteps)
         {
-            AddReward(-4 * (Route.Count - maxSteps));
-            rAwayNode += -4 * (Route.Count - maxSteps);
+            AddReward(-0.1f * (Route.Count - maxSteps));
+            rAwayNode += -0.1f * (Route.Count - maxSteps);
             maxSteps = Route.Count;
         }
+
+        /*
         if (lengthAtCurrentNode > 60)
         {
-            AddReward(-0.0025f);
-            rTimeAtNode += -0.0025f;
+            AddReward(-0.005f * Time.deltaTime);
+            rTimeAtNode += -0.005f * Time.deltaTime;
         }
+        */
 
 
-        if (AtTarget)
-        {
-            AddReward(35.0f);
-            rAtTarget += 35f;
-            EndEpisode();
-        }
-        else if (this.transform.localPosition.y < 0.06)
-        {
-            AddReward(-20.0f);
-            rFalling += -20f;
-            EndEpisode();
-        }
+
+        float totalReward = rTrainingWheels + rTowardsNode + rAwayNode + rTimeAtNode + rAtTarget + rFalling;
+        Debug.Log($"Total Reward: {totalReward}, Step: {StepCount}");
     }
     private void AddOneHotEncoding(VectorSensor sensor, int category, int numCategories)
     {
@@ -344,7 +372,7 @@ public class CarAgent : Agent
         lastChecked = 0;
         CurrentNextNode = null;
         CurrentNode = null;
-        lengthAtCurrentNode = 0;
+        timeAtCurrentNode = 0;
         maxSteps = 0;
         GetPath();
     }
