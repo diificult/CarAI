@@ -19,8 +19,6 @@ public class Node : MonoBehaviour
     public void Awake()
     {
         GameObject.Find("AStar").GetComponent<Grid>().AddNode(new Vector2(transform.position.x, transform.position.z), this);
-        GridX = (int)transform.position.x / 10;
-        GridY = (int)transform.position.z / 10;
         TextMeshPro.text = GridX + ", " + GridY;
     }
 

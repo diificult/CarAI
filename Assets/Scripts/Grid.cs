@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour 
 {
-    [Header("Unused")]
-    private Node[,] gridArray;
-    public Vector2 gridWorldSize;
-    public float nodeSize;
-    public LayerMask layerMask;
 
     public CarAgent carAgent;   
 
@@ -47,8 +42,9 @@ public class Grid : MonoBehaviour
 
     public void AddNode(Vector2 Position,Node node)
     {
-        nodes.Add(new Vector2((int)Position.x / 10,(int) Position.y / 10), node);
-        //Debug.Log("Added new node at " + (int)Position.x + 5 / 10 + ", " + (int)Position.y / 10);
+
+        //TODO: Change this to not need to caculate anything
+        nodes.Add(new Vector2((int)Position.x / 20,(int) Position.y / 20), node);
     }
 
 
@@ -56,10 +52,10 @@ public class Grid : MonoBehaviour
     {
         int x;
         int y;
-        if (worldPoint.x < 0) x = (int)(worldPoint.x - 5) / 10;
-        else x = (int)(worldPoint.x + 5) / 10;
-        if (worldPoint.z < 0) y = (int)(worldPoint.z - 5) / 10;
-        else y = (int)(worldPoint.z + 5) / 10;
+        if (worldPoint.x < 0) x = (int)(worldPoint.x - 10) / 20;
+        else x = (int)(worldPoint.x + 10) / 20;
+        if (worldPoint.z < 0) y = (int)(worldPoint.z - 10) / 20;
+        else y = (int)(worldPoint.z + 10) / 20;
 
        // Debug.Log("Current at " + x + ", " + y + " because (" + worldPoint.x + "," + worldPoint.z + ")");
        if (nodes[new Vector2(x, y)] == null) {

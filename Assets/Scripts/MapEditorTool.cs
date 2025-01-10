@@ -4,6 +4,7 @@ using UnityEngine;
 public class MapEditorTool : EditorWindow
 {
     private GameObject selectedObject;
+    private GameObject Parent;
 
     [MenuItem("Tools/Map Editor Tool")]
     public static void ShowWindow()
@@ -16,7 +17,8 @@ public class MapEditorTool : EditorWindow
         GUILayout.Label("Map Editor Tool", EditorStyles.boldLabel);
 
         selectedObject = (GameObject)EditorGUILayout.ObjectField("Selected Object", selectedObject, typeof(GameObject), true);
-
+        Parent = (GameObject) EditorGUILayout.ObjectField("Parent", Parent, typeof(GameObject), true);
+        
         if (selectedObject == null)
         {
             EditorGUILayout.HelpBox("Please select an object to duplicate.", MessageType.Warning);
@@ -48,11 +50,13 @@ public class MapEditorTool : EditorWindow
     {
         if (selectedObject != null)
         {
-            GameObject duplicate = Instantiate(selectedObject);
+            GameObject duplicate = Instantiate(selectedObject, Parent.transform);
             Undo.RegisterCreatedObjectUndo(duplicate, "Duplicate Object");
-            duplicate.transform.position = selectedObject.transform.position + direction * 10;
+            duplicate.transform.position = selectedObject.transform.position + direction * 20;
             duplicate.transform.rotation = selectedObject.transform.rotation;
-            duplicate.name = selectedObject.name + "_Duplicate";
+            duplicate.GetComponent<Node>().GridX = selectedObject.GetComponent<Node>().GridX + (int)direction.x;
+            duplicate.GetComponent<Node>().GridY = selectedObject.GetComponent<Node>().GridY + (int)direction.z;
+            duplicate.name =  "Road " + duplicate.GetComponent<Node>().GridX + " " + duplicate.GetComponent<Node>().GridY;
             selectedObject = duplicate;
             Selection.activeGameObject = duplicate;
         }

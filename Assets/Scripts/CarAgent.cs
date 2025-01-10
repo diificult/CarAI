@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using TMPro;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
@@ -40,13 +37,14 @@ public class CarAgent : Agent
     int maxSteps = 0;
 
     public float vxMax = 0f;
-    public float vyMax = 0f;   
+    public float vyMax = 0f;
 
     public bool FallenOff = false;
 
     public Node CurrentNode;
     public Node CurrentNextNode;
     public int lengthAtCurrentNode = 0;
+    [SerializeField] private float LastDistanceToNextNode;
 
     float rTowardsNode = 0f;
     float rAwayNode = 0f;
@@ -55,6 +53,7 @@ public class CarAgent : Agent
     float rCorrectNode = 0f;
     float rIncorrectNode = 0f;
     float rTimeAtNode = 0f;
+    float rTrainingWheels = 0f;
 
     public TextMeshProUGUI lblTowardsNode;
     public TextMeshProUGUI lblAwayNode;
@@ -64,8 +63,10 @@ public class CarAgent : Agent
     public TextMeshProUGUI lblIncorrectNode;
     public TextMeshProUGUI lblTimeAtNode;
 
+    [SerializeField] bool TrainingWheels = true;
 
-    
+
+
 
     public void FixedUpdate()
     {
@@ -88,43 +89,46 @@ public class CarAgent : Agent
                 lblDirection.text = "Current Direction: Left";
                 break;
         }
-        lblDistance.text = "Number of Nodes: " + distance;
 
+        //TODO update these to work on events (check efficience of this as im thinking this may cause lag)
+        lblDistance.text = "Number of Nodes: " + distance;
         lblTowardsNode.text = "Towards Goal " + rTowardsNode;
         lblAwayNode.text = "Away from goal " + rAwayNode;
-        lblFalling.text = "Falling Off" + rFalling;
-        lblAtTarget.text = "At Target" + rAtTarget;
-        lblCorrectNode.text = "Correct Node" + rCorrectNode;
-        lblIncorrectNode.text = "Incorrect Node" + rIncorrectNode;
-        lblTimeAtNode.text = " Time At Node" + rTimeAtNode;
+        lblFalling.text = "Falling Off " + rFalling;
+        lblAtTarget.text = "At Target " + rAtTarget;
+        lblCorrectNode.text = "Training Wheels " + rTrainingWheels;
+        lblIncorrectNode.text = "Incorrect Node " + rIncorrectNode;
+        lblTimeAtNode.text = " Time At Node " + rTimeAtNode;
 
 
         if (lastChecked >= 10)
         {
-            
+
             GetPath();
             lastChecked = 0;
             if (CurrentNextNode == null) CurrentNextNode = Route[1];
             if (CurrentNode == null) CurrentNode = Route[0];
             else if (Route[0] == CurrentNode) lengthAtCurrentNode++;
             else
-           {
-           /*     Debug.Log("Moved nodes");
-                if (Route[0] == CurrentNextNode)
-                {
-                    AddReward(3f);
-                    rCorrectNode += 3f;
-                    CurrentNextNode = Route[1];
-                }
-                else
-                {
-                    AddReward(-3f);
-                    rIncorrectNode += -3f;
-                    CurrentNextNode = Route[1];
-                }*/
+            {
+
+                /*     Debug.Log("Moved nodes");
+                     if (Route[0] == CurrentNextNode)
+                     {
+                         AddReward(3f);
+                         rCorrectNode += 3f;
+                         CurrentNextNode = Route[1];
+                     }
+                     else
+                     {
+                         AddReward(-3f);
+                         rIncorrectNode += -3f;
+                         CurrentNextNode = Route[1];
+                     }*/
+                LastDistanceToNextNode = 0;
                 lengthAtCurrentNode = 0;
                 CurrentNode = Route[0];
-                
+
             }
 
         }
@@ -145,7 +149,7 @@ public class CarAgent : Agent
             node.gameObject.GetComponent<MeshRenderer>().material = pathMat;
         }
         findNextTurn();
-       // targetNode = GameObject.Find("AStar").GetComponent<Grid>().GetNodeFromWorldPoint(Target.transform.position);
+        // targetNode = GameObject.Find("AStar").GetComponent<Grid>().GetNodeFromWorldPoint(Target.transform.position);
     }
 
     public void findNextTurn()
@@ -168,42 +172,37 @@ public class CarAgent : Agent
             if (forwardDot > 0)
             {
 
-                for (int i = 1; i < Route.Count -1; i++)
+                for (int i = 1; i < Route.Count - 1; i++)
                 {
-                    Vector3 a = Route[i-1].transform.position;  
-                    Vector3 b = Route[i].transform.position;  
-                    Vector3 c = Route[i+1].transform.position;
-                    Vector3 ab = (b-a).normalized;
-                    Vector3 bc = (c-b).normalized;
+                    Vector3 a = Route[i - 1].transform.position;
+                    Vector3 b = Route[i].transform.position;
+                    Vector3 c = Route[i + 1].transform.position;
+                    Vector3 ab = (b - a).normalized;
+                    Vector3 bc = (c - b).normalized;
 
                     float angle = Vector3.Angle(ab, bc);
 
-                   // Debug.Log("Angle: " + angle);
+                    // Debug.Log("Angle: " + angle);
                     if (angle > 1)
                     {
-                        Vector3 cross = Vector3.Cross(ab,bc);
+                        Vector3 cross = Vector3.Cross(ab, bc);
 
                         Direction = cross.y > 0 ? 1 : 3;
-                        distance = (int) Vector3.Distance(Route[0].transform.position, b) / 10;
-                       // Debug.Log("Cross : " + cross.y + ", distance " + (int) Vector3.Distance(Route[0].transform.position, b) / 10);
-                            break;
+                        distance = (int)Vector3.Distance(Route[0].transform.position, b) / 20;
+                        // Debug.Log("Cross : " + cross.y + ", distance " + (int) Vector3.Distance(Route[0].transform.position, b) / 10);
+                        break;
                     }
-                    
-
-
-
                 }
-
-
-            } else
+            }
+            else
             {
                 Direction = 2;
                 distance = 0;
             }
-
-        } else
+        }
+        else
         {
-            if (rightDot > 0 ) Direction = 1;
+            if (rightDot > 0) Direction = 1;
             else Direction = 3;
             distance = 0;
         }
@@ -232,7 +231,7 @@ public class CarAgent : Agent
 
         //Velocity
         sensor.AddObservation(gameObject.GetComponent<Rigidbody>().velocity.x / 18.0f);
-        sensor.AddObservation(gameObject.GetComponent<Rigidbody>().velocity.z /18.0f);
+        sensor.AddObservation(gameObject.GetComponent<Rigidbody>().velocity.z / 18.0f);
         sensor.AddObservation(Route[0].GridX / 15.0f);
         sensor.AddObservation(Route[0].GridY / 15.0f);
         sensor.AddObservation(transform.position.x / 150f);
@@ -242,55 +241,66 @@ public class CarAgent : Agent
         sensor.AddObservation(speed);
 
         AddOneHotEncoding(sensor, Direction + 1, 4);
-       // Debug.Log("Current Observatios: Vx " + gameObject.GetComponent<Rigidbody>().velocity.x / 8.0f + ", Vy" + gameObject.GetComponent<Rigidbody>().velocity.z /8.0f + ", PosX: " + (Route[0].GridX / 15.0f) + " PosY: " + (((float)Route[0].GridY) / 15.0f) + " Distance: " + (distance / 15.0f));
-        
-       // sensor.AddObservation(FallenOff);
+        // Debug.Log("Current Observatios: Vx " + gameObject.GetComponent<Rigidbody>().velocity.x / 8.0f + ", Vy" + gameObject.GetComponent<Rigidbody>().velocity.z /8.0f + ", PosX: " + (Route[0].GridX / 15.0f) + " PosY: " + (((float)Route[0].GridY) / 15.0f) + " Distance: " + (distance / 15.0f));
 
-    
+        // sensor.AddObservation(FallenOff);
+
+
     }
 
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-      //  Debug.Log("Got an action");
+        //  Debug.Log("Got an action");
         var continuousActions = actions.ContinuousActions;
         GetComponent<CarControl>().UpdateValues(continuousActions[0], continuousActions[1]);
         base.OnActionReceived(actions);
 
         //Calculate rewards
 
-        if (maxSteps == 0 )
+        if (maxSteps == 0)
         {
             maxSteps = Route.Count;
         }
+        if (TrainingWheels)
+        {
+            float distanceToNextNode = Vector3.Distance(Route[1].transform.position, this.transform.position);
+            if (LastDistanceToNextNode == 0) { LastDistanceToNextNode = distanceToNextNode; }
+            else
+            {
+                AddReward((LastDistanceToNextNode - distanceToNextNode) / 180f);
+                rTrainingWheels += (LastDistanceToNextNode - distanceToNextNode) / 180f;
+                LastDistanceToNextNode = distanceToNextNode;
+            }
+        }
 
-        
         if (Route.Count < maxSteps)
         {
 
-            AddReward(3f * (maxSteps - Route.Count));
-            rTowardsNode += 3.1f * (maxSteps - Route.Count);
+            AddReward(4f * (maxSteps - Route.Count));
+            rTowardsNode += 4f * (maxSteps - Route.Count);
             maxSteps = Route.Count;
-        } else if (Route.Count > maxSteps)
+        }
+        else if (Route.Count > maxSteps)
         {
-            AddReward(-3 * ( Route.Count - maxSteps));
-            rAwayNode += -3 * (Route.Count - maxSteps);
-            maxSteps = Route.Count; 
+            AddReward(-4 * (Route.Count - maxSteps));
+            rAwayNode += -4 * (Route.Count - maxSteps);
+            maxSteps = Route.Count;
         }
         if (lengthAtCurrentNode > 60)
         {
-            AddReward(-0.002f);
-            rTimeAtNode += -0.0002f;
+            AddReward(-0.0025f);
+            rTimeAtNode += -0.0025f;
         }
 
 
         if (AtTarget)
         {
-            AddReward(25.0f);
-            rAtTarget += 25f;
-            EndEpisode();   
+            AddReward(35.0f);
+            rAtTarget += 35f;
+            EndEpisode();
         }
-        else if (this.transform.localPosition.y < 0.06 )
+        else if (this.transform.localPosition.y < 0.06)
         {
             AddReward(-20.0f);
             rFalling += -20f;
@@ -322,11 +332,12 @@ public class CarAgent : Agent
         rCorrectNode = 0f;
         rIncorrectNode = 0f;
         rTimeAtNode = 0f;
+        rTrainingWheels = 0f;
 
         //Choose a random target
         //TODO put into a managers class;
         Node random = grid.GetRandomNode();
-       // Target.transform.position = random.transform.position;
+        // Target.transform.position = random.transform.position;
         transform.position = new Vector3(0, 0.15f, 0);
         transform.rotation = Quaternion.identity;
         AtTarget = false;
