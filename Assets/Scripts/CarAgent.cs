@@ -3,6 +3,7 @@ using TMPro;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class CarAgent : Agent
@@ -46,6 +47,8 @@ public class CarAgent : Agent
     public float timeAtCurrentNode = 0;
     [SerializeField] private float LastDistanceToNextNode;
     [SerializeField] private float decayFactor = 0.1f;
+
+    private Vector3 ClosestPointOnNextNode;
 
     float rTowardsNode = 0f;
     float rAwayNode = 0f;
@@ -106,7 +109,7 @@ public class CarAgent : Agent
         lblFalling.text = "Falling Off " + rFalling;
         lblAtTarget.text = "At Target " + rAtTarget;
         lblCorrectNode.text = "Training Wheels " + rTrainingWheels;
-        lblIncorrectNode.text = "Incorrect Node " + rIncorrectNode;
+        lblIncorrectNode.text = " " + rIncorrectNode;
         lblTimeAtNode.text = "Time At Node " + rTimeAtNode;
 
         GetPath();
@@ -167,13 +170,15 @@ public class CarAgent : Agent
 
         float forwardDot = Vector3.Dot(transform.forward, nextNodeDirection);
         float rightDot = Vector3.Dot(transform.right, nextNodeDirection);
+        Debug.Log(forwardDot + " " + rightDot);
 
         if (Mathf.Abs(forwardDot) > Mathf.Abs(rightDot))
         {
+            
             //In front or behind
             if (forwardDot > 0)
             {
-
+                bool isStraight = true;
                 for (int i = 1; i < Route.Count - 1; i++)
                 {
                     Vector3 a = Route[i - 1].transform.position;
@@ -191,9 +196,15 @@ public class CarAgent : Agent
 
                         Direction = cross.y > 0 ? 1 : 3;
                         distance = (int)Vector3.Distance(Route[0].transform.position, b) / 20;
+                        isStraight = false;
                         // Debug.Log("Cross : " + cross.y + ", distance " + (int) Vector3.Distance(Route[0].transform.position, b) / 10);
                         break;
                     }
+                }
+                if (isStraight)
+                {
+                    Direction = 0;
+                    distance = (int)Vector3.Distance(Route[0].transform.position, Route[Route.Count-1].transform.position) / 20;
                 }
             }
             else
@@ -239,7 +250,7 @@ public class CarAgent : Agent
         sensor.AddObservation(Route[0].GridY / 15.0f);
         sensor.AddObservation(transform.position.x / 150f);
         sensor.AddObservation(transform.position.z / 150f);
-        sensor.AddObservation(LastDistanceToNextNode / 180f);
+        sensor.AddObservation(LastDistanceToNextNode / 20f);
         sensor.AddObservation(distance / 15.0f);
         float speed = v.magnitude / 18f;
         sensor.AddObservation(speed);
@@ -262,17 +273,17 @@ public class CarAgent : Agent
         //Calculate rewards
 
         //TODO MOVE CALCULATIONS TO SEPERATE FUNCTIONS
-        
+
         if (AtTarget)
         {
             AddReward(1f);
-            rAtTarget += 35f;
+            rAtTarget += 1f;
             EndEpisode();
         }
         else if (this.transform.localPosition.y < 0.06)
         {
             AddReward(-16.0f / 35.0f);
-            rFalling += -16f;
+            rFalling += -16.0f / 35.0f;
             EndEpisode();
         }
         if (maxSteps == 0)
@@ -295,17 +306,58 @@ public class CarAgent : Agent
 
         if (TrainingWheels)
         {
-            float distanceToNextNode = Vector3.Distance(Route[1].transform.position, this.transform.position);
-            if (LastDistanceToNextNode == 0) { LastDistanceToNextNode = distanceToNextNode; }
-            else
+            /*   float distanceToNextNode = Vector3.Distance(Route[1].transform.position, this.transform.position);
+               if (LastDistanceToNextNode == 0) { LastDistanceToNextNode = distanceToNextNode; }
+               else
+               {
+                   float progressReward = ((LastDistanceToNextNode - distanceToNextNode) * Mathf.Exp(-timeAtCurrentNode * decayFactor)) / 100f;
+                   AddReward(progressReward);
+                   rTrainingWheels += progressReward;
+
+                   // Update last distance
+                   LastDistanceToNextNode = distanceToNextNode;
+               }
+            */
+            float distanceToNextNode = 0f;
+
+            if (transform.position.x > Route[1].transform.position.x + 10)
+            {
+                //West
+                distanceToNextNode = transform.position.x - (Route[1].transform.position.x + 10);
+                ClosestPointOnNextNode = new Vector3(Route[1].transform.position.x + 10, 0, transform.position.z);
+
+            }
+            else if (transform.position.x < Route[1].transform.position.x - 10)
+            {
+                //To the East
+                distanceToNextNode = (Route[1].transform.position.x - 10) - transform.position.x;
+                ClosestPointOnNextNode = new Vector3(Route[1].transform.position.x - 10, 0, transform.position.z);
+
+            }
+            else if (transform.position.z > Route[1].transform.position.z + 10)
+            {
+                //Player is North
+                distanceToNextNode = transform.position.z - (Route[1].transform.position.z + 10);
+                ClosestPointOnNextNode = new Vector3(transform.position.x, 0, (Route[1].transform.position.z + 10));
+            }
+            else if (transform.position.z < Route[1].transform.position.z - 10)
+            {
+                //Player is South
+                
+                distanceToNextNode = (Route[1].transform.position.z - 10) - transform.position.z;
+                ClosestPointOnNextNode = new Vector3(transform.position.x, 0, (Route[1].transform.position.z - 10));
+            }
+
+            if (LastDistanceToNextNode != 0)
             {
                 float progressReward = ((LastDistanceToNextNode - distanceToNextNode) * Mathf.Exp(-timeAtCurrentNode * decayFactor)) / 100f;
                 AddReward(progressReward);
                 rTrainingWheels += progressReward;
 
-                // Update last distance
-                LastDistanceToNextNode = distanceToNextNode;
+
             }
+            // Update last distance
+            LastDistanceToNextNode = distanceToNextNode;
         }
 
         if (Route.Count < maxSteps)
@@ -333,7 +385,7 @@ public class CarAgent : Agent
 
 
         float totalReward = rTrainingWheels + rTowardsNode + rAwayNode + rTimeAtNode + rAtTarget + rFalling;
-        Debug.Log($"Total Reward: {totalReward}, Step: {StepCount}");
+        //     Debug.Log($"Total Reward: {totalReward}, Step: {StepCount}");
     }
     private void AddOneHotEncoding(VectorSensor sensor, int category, int numCategories)
     {

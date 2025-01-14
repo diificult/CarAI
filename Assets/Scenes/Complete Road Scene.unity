@@ -19199,7 +19199,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 10000
+  MaxStep: 5000
   yPos: {fileID: 703354454}
   Reward: {fileID: 949333387}
   lblDirection: {fileID: 790661375}
@@ -19217,8 +19217,9 @@ MonoBehaviour:
   FallenOff: 0
   CurrentNode: {fileID: 0}
   CurrentNextNode: {fileID: 0}
-  lengthAtCurrentNode: 0
+  timeAtCurrentNode: 0
   LastDistanceToNextNode: 0
+  decayFactor: 0.1
   lblTowardsNode: {fileID: 1408254245}
   lblAwayNode: {fileID: 1993508708}
   lblFalling: {fileID: 924500492}
@@ -19250,7 +19251,7 @@ MonoBehaviour:
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
-  m_InferenceDevice: 1
+  m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: CarAI
   TeamId: 0
@@ -32386,7 +32387,7 @@ Transform:
   m_GameObject: {fileID: 1670682701}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 38.3, y: 0.6129999, z: 59.9}
+  m_LocalPosition: {x: 58.9, y: 0.6129999, z: 59.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
