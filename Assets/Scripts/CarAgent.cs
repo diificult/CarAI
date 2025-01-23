@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
-using UnityEditor.Build;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CarAgent : Agent
 {
@@ -16,6 +17,8 @@ public class CarAgent : Agent
 
 
     public GameObject Target;
+    public GameObject[] Targets;
+    private int targetX, targetY;
     public Grid grid;
 
     public List<Node> Route;
@@ -68,12 +71,17 @@ public class CarAgent : Agent
     public TextMeshProUGUI lblTimeAtNode;
     private Rigidbody rb;
 
+    private Tuple<int, int> lastInstruction;
+
     [SerializeField] bool TrainingWheels = true;
 
     public void Awake()
     {
         Application.targetFrameRate = 30;
         rb = GetComponent<Rigidbody>();
+        Node n = grid.GetNodeFromWorldPoint(Target.transform.position);
+        targetX = n.GridX;
+        targetY = n.GridY;
     }
 
 
@@ -170,11 +178,11 @@ public class CarAgent : Agent
 
         float forwardDot = Vector3.Dot(transform.forward, nextNodeDirection);
         float rightDot = Vector3.Dot(transform.right, nextNodeDirection);
-        Debug.Log(forwardDot + " " + rightDot);
+        //Debug.Log(forwardDot + " " + rightDot);
 
         if (Mathf.Abs(forwardDot) > Mathf.Abs(rightDot))
         {
-            
+
             //In front or behind
             if (forwardDot > 0)
             {
@@ -204,7 +212,7 @@ public class CarAgent : Agent
                 if (isStraight)
                 {
                     Direction = 0;
-                    distance = (int)Vector3.Distance(Route[0].transform.position, Route[Route.Count-1].transform.position) / 20;
+                    distance = (int)Vector3.Distance(Route[0].transform.position, Route[Route.Count - 1].transform.position) / 20;
                 }
             }
             else
@@ -248,9 +256,12 @@ public class CarAgent : Agent
         sensor.AddObservation(v.z / 18.0f);
         sensor.AddObservation(Route[0].GridX / 15.0f);
         sensor.AddObservation(Route[0].GridY / 15.0f);
-        sensor.AddObservation(transform.position.x / 150f);
-        sensor.AddObservation(transform.position.z / 150f);
+        sensor.AddObservation(targetX / 15.0f);
+        sensor.AddObservation(targetY / 15.0f);
+        sensor.AddObservation(transform.position.x / 200f);
+        sensor.AddObservation(transform.position.z / 200f);
         sensor.AddObservation(LastDistanceToNextNode / 20f);
+        sensor.AddObservation(transform.rotation.y);
         sensor.AddObservation(distance / 15.0f);
         float speed = v.magnitude / 18f;
         sensor.AddObservation(speed);
@@ -343,7 +354,7 @@ public class CarAgent : Agent
             else if (transform.position.z < Route[1].transform.position.z - 10)
             {
                 //Player is South
-                
+
                 distanceToNextNode = (Route[1].transform.position.z - 10) - transform.position.z;
                 ClosestPointOnNextNode = new Vector3(transform.position.x, 0, (Route[1].transform.position.z - 10));
             }
@@ -359,20 +370,151 @@ public class CarAgent : Agent
             // Update last distance
             LastDistanceToNextNode = distanceToNextNode;
         }
+        if (lastInstruction == null) lastInstruction = new Tuple<int, int>(Direction, distance);
+        else if (lastInstruction.Item1 != Direction || lastInstruction.Item2 != distance)
+        {
+            Debug.Log($"New instruction: Direction {Direction}, distance {distance}, maxStep {maxSteps}, Route Count {Route.Count}");
 
+
+            //If the direction is straight or is left or right and decreases number of steps
+            // Correct
+            //If the direction is left or right and becomes left right or straight with same number of steps but increase number of direction
+            // Correct
+            //If direction is left or right or straight and changes to left right and straight and same number of steps but decreased distance 
+            // Incorrect
+            // If number of steps increase
+            // Incorrect
+
+            if (Route.Count < maxSteps)
+            {
+                //Correct
+                //Done the correct instruction
+                AddReward(0.15f);
+                rTowardsNode += 0.15f;
+                maxSteps = Route.Count;
+
+
+            }
+            else if (Route.Count == maxSteps)
+            {
+             
+                if (lastInstruction.Item1 == 0 && (Direction == 1 || Direction == 3))
+                {
+                    //Incorrect
+                    AddReward(-0.15f);
+                    rAwayNode += -0.15f;
+                    maxSteps = Route.Count;
+                }
+                else if ((lastInstruction.Item1 == 1 || lastInstruction.Item1 == 3) && (lastInstruction.Item2 > distance))
+                {
+                    //Incorrect
+                    AddReward(-0.15f);
+                    rAwayNode += -0.15f;
+                    maxSteps = Route.Count;
+                }
+                else
+                {
+                    //Correct
+                    //Done the correct instruction
+                    AddReward(0.15f);
+                    rTowardsNode += 0.15f;
+                    maxSteps = Route.Count;
+                }
+
+
+            }
+            else
+            {
+                //Incorrect
+                AddReward(-0.15f);
+                rAwayNode += -0.15f;
+                maxSteps = Route.Count;
+            }
+
+            lastInstruction = new Tuple<int, int>(Direction, distance);
+
+
+
+
+
+
+
+
+
+
+            /*
+                if ((lastInstruction.Item1 == 1 || lastInstruction.Item1 == 3))
+                {
+                    if (Direction == 0 || ((Direction == 1 || Direction == 3) && Route.Count <= MaxStep ))
+                    {
+                        if (lastInstruction.Item2 < distance)
+                        {
+                            //Done the correct instruction
+                            AddReward(0.15f);
+                            rTowardsNode += 0.15f;
+                            maxSteps = Route.Count;
+                        } else if ( distance < lastInstruction.Item2 && Route.Count < MaxStep)
+                        {
+                            //Done the correct instruction
+                            AddReward(0.15f);
+                            rTowardsNode += 0.15f;
+                            maxSteps = Route.Count;
+                        }
+                        else
+                        {
+                            // Done the incorrect instruction
+                            AddReward(-0.15f);
+                            rAwayNode += -0.15f;
+                            maxSteps = Route.Count;
+                        }
+
+                    }
+                    else
+                    {
+                        //failed instruction
+                        AddReward(-0.15f );
+                        rAwayNode += -0.15f;
+                        maxSteps = Route.Count;
+                    }
+                }
+                else if (distance < lastInstruction.Item2)
+                {
+                    //Gotten closer so correct instruction
+                    AddReward(0.15f);
+                    rTowardsNode += 0.15f;
+                    maxSteps = Route.Count;
+                } else if (lastInstruction.Item1 == 2 && (Direction == 1 || Direction == 3)) 
+                {
+                    //Gotten closer so correct instruction
+                    AddReward(0.15f);
+                    rTowardsNode += 0.15f;
+                    maxSteps = Route.Count;
+                }
+                else
+                {
+                    AddReward(-0.15f);
+                    rAwayNode += -0.15f;
+                    maxSteps = Route.Count;
+                }
+                lastInstruction = new Tuple<int, int>(Direction, distance);
+            */
+        }
+
+        /*
         if (Route.Count < maxSteps)
         {
 
-            AddReward(0.1f * (maxSteps - Route.Count));
-            rTowardsNode += 0.1f * (maxSteps - Route.Count);
+            AddReward(0.15f * (maxSteps - Route.Count));
+            rTowardsNode += 0.15f * (maxSteps - Route.Count);
             maxSteps = Route.Count;
         }
         else if (Route.Count > maxSteps)
         {
-            AddReward(-0.1f * (Route.Count - maxSteps));
-            rAwayNode += -0.1f * (Route.Count - maxSteps);
+            AddReward(-0.15f * (Route.Count - maxSteps));
+            rAwayNode += -0.15f * (Route.Count - maxSteps);
             maxSteps = Route.Count;
         }
+        */
 
         /*
         if (lengthAtCurrentNode > 60)
@@ -405,6 +547,8 @@ public class CarAgent : Agent
     public override void OnEpisodeBegin()
     {
 
+
+        //Resets rewards counters
         rTowardsNode = 0f;
         rAwayNode = 0f;
         rFalling = 0f;
@@ -417,14 +561,24 @@ public class CarAgent : Agent
         //Choose a random target
         //TODO put into a managers class;
         Node random = grid.GetRandomNode();
+        GameObject nextTarget = Targets[Random.Range(0, Targets.Length)];
+        Target.transform.position = nextTarget.transform.position;
+        Node n = grid.GetNodeFromWorldPoint(Target.transform.position);
+        targetX = n.GridX;
+        targetY = n.GridY;
         // Target.transform.position = random.transform.position;
-        transform.position = new Vector3(0, 0.15f, 0);
-        transform.rotation = Quaternion.identity;
+        //transform.position = new Vector3(0, 0.15f, 0);
+        transform.position = new Vector3(Random.Range(-5, 5), 0.15F, Random.Range(-5, 5));
+        // transform.rotation = Quaternion.identity;
+        transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+        rb.velocity = Vector3.zero;
         AtTarget = false;
         lastChecked = 0;
         CurrentNextNode = null;
         CurrentNode = null;
+        lastInstruction = null;
         timeAtCurrentNode = 0;
+        LastDistanceToNextNode = 0f;
         maxSteps = 0;
         GetPath();
     }

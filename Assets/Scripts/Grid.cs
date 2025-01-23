@@ -59,7 +59,7 @@ public class Grid : MonoBehaviour
 
        // Debug.Log("Current at " + x + ", " + y + " because (" + worldPoint.x + "," + worldPoint.z + ")");
        if (nodes[new Vector2(x, y)] == null) {
-            carAgent.FallenOff = true;
+            //carAgent.FallenOff = true;
             return null;
         }
         return nodes[new Vector2(x, y)];

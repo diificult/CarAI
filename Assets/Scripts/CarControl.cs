@@ -35,9 +35,18 @@ public class CarControl : MonoBehaviour
       void Update()
       {
 
+        
+        if (HumanControl)
+        {
+            float vInput = Input.GetAxis("Vertical");
+            float hInput = Input.GetAxis("Horizontal");
+            UpdateValues (vInput, hInput);  
+        }
 
         CalculateDrive();
+        
         /*
+        
           float vInput = Input.GetAxis("Vertical");
           float hInput = Input.GetAxis("Horizontal");
 
@@ -87,7 +96,7 @@ public class CarControl : MonoBehaviour
                   wheel.WheelCollider.motorTorque = 0;
               }
           }
-        **/
+        */
       }
     
 
@@ -121,6 +130,7 @@ public class CarControl : MonoBehaviour
         // Calculate current speed in relation to the forward direction of the car
         // (this returns a negative number when traveling backwards)
         float forwardSpeed = Vector3.Dot(transform.forward, rigidBody.velocity);
+        Debug.Log($"Calculated speed {forwardSpeed}");
 
 
         // Calculate how close the car is to top speed
