@@ -12,8 +12,6 @@ public class CarControl : MonoBehaviour
     public float steeringRangeAtMaxSpeed = 10;
     public float centreOfGravityOffset = -1f;
 
-    public bool HumanControl = false;
-
     WheelControl[] wheels;
     Rigidbody rigidBody;
 
@@ -34,16 +32,9 @@ public class CarControl : MonoBehaviour
     // Update is called once per frame
       void Update()
       {
+            CalculateDrive();
 
         
-        if (HumanControl)
-        {
-            float vInput = Input.GetAxis("Vertical");
-            float hInput = Input.GetAxis("Horizontal");
-            UpdateValues (vInput, hInput);  
-        }
-
-        CalculateDrive();
         
         /*
         
@@ -112,7 +103,7 @@ public class CarControl : MonoBehaviour
     void FixedUpdate()
     {
        
-    //    CalculateDrive();
+      //  CalculateDrive();
         
     }
 
@@ -130,7 +121,6 @@ public class CarControl : MonoBehaviour
         // Calculate current speed in relation to the forward direction of the car
         // (this returns a negative number when traveling backwards)
         float forwardSpeed = Vector3.Dot(transform.forward, rigidBody.velocity);
-        Debug.Log($"Calculated speed {forwardSpeed}");
 
 
         // Calculate how close the car is to top speed
@@ -162,7 +152,7 @@ public class CarControl : MonoBehaviour
                 // Apply torque to Wheel colliders that have "Motorized" enabled
                 if (wheel.motorized)
                 {
-                    wheel.WheelCollider.motorTorque = Sides * currentMotorTorque;
+                    wheel.WheelCollider.motorTorque = Forwards * currentMotorTorque;
                 }
                 wheel.WheelCollider.brakeTorque = 0;
             }

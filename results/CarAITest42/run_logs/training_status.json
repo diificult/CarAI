@@ -1,0 +1,29 @@
+{
+    "CarAI": {
+        "checkpoints": [
+            {
+                "steps": 1280,
+                "file_path": "results\\CarAITest42\\CarAI\\CarAI-1280.onnx",
+                "reward": null,
+                "creation_time": 1737722627.640619,
+                "auxillary_file_paths": [
+                    "results\\CarAITest42\\CarAI\\CarAI-1280.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1280,
+            "file_path": "results\\CarAITest42\\CarAI.onnx",
+            "reward": null,
+            "creation_time": 1737722627.640619,
+            "auxillary_file_paths": [
+                "results\\CarAITest42\\CarAI\\CarAI-1280.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

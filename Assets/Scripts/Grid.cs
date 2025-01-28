@@ -6,10 +6,6 @@ using UnityEngine;
 public class Grid : MonoBehaviour 
 {
 
-    public CarAgent carAgent;   
-
-    public List<Node> path = new List<Node>();
-
     public Dictionary<Vector2, Node> nodes = new Dictionary<Vector2, Node>();
 
     public List<Node> GetNeighbours(Node node)

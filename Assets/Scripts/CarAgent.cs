@@ -75,7 +75,7 @@ public class CarAgent : Agent
 
     [SerializeField] bool TrainingWheels = true;
 
-    public void Awake()
+    public void Start()
     {
         Application.targetFrameRate = 30;
         rb = GetComponent<Rigidbody>();
@@ -254,12 +254,12 @@ public class CarAgent : Agent
         //Velocity
         sensor.AddObservation(v.x / 18.0f);
         sensor.AddObservation(v.z / 18.0f);
-        sensor.AddObservation(Route[0].GridX / 15.0f);
-        sensor.AddObservation(Route[0].GridY / 15.0f);
-        sensor.AddObservation(targetX / 15.0f);
-        sensor.AddObservation(targetY / 15.0f);
-        sensor.AddObservation(transform.position.x / 200f);
-        sensor.AddObservation(transform.position.z / 200f);
+     //   sensor.AddObservation(Route[0].GridX / 15.0f);
+   //     sensor.AddObservation(Route[0].GridY / 15.0f);
+        sensor.AddObservation((targetX - Route[0].GridX) / 10.0f);
+        sensor.AddObservation((targetY - Route[0].GridY) / 10.0f);
+        sensor.AddObservation(transform.position.x / 210f);
+        sensor.AddObservation(transform.position.z / 210f);
         sensor.AddObservation(LastDistanceToNextNode / 20f);
         sensor.AddObservation(transform.rotation.y);
         sensor.AddObservation(distance / 15.0f);
@@ -272,6 +272,13 @@ public class CarAgent : Agent
         // sensor.AddObservation(FallenOff);
 
 
+    }
+
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var continuousActionsOut = actionsOut.ContinuousActions;
+        continuousActionsOut[0] = Input.GetAxis("Vertical");
+        continuousActionsOut[1] = Input.GetAxis("Horizontal");
     }
 
 
@@ -287,6 +294,7 @@ public class CarAgent : Agent
 
         if (AtTarget)
         {
+            Debug.Log("Got to end");
             AddReward(1f);
             rAtTarget += 1f;
             EndEpisode();
@@ -373,7 +381,7 @@ public class CarAgent : Agent
         if (lastInstruction == null) lastInstruction = new Tuple<int, int>(Direction, distance);
         else if (lastInstruction.Item1 != Direction || lastInstruction.Item2 != distance)
         {
-            Debug.Log($"New instruction: Direction {Direction}, distance {distance}, maxStep {maxSteps}, Route Count {Route.Count}");
+       //     Debug.Log($"New instruction: Direction {Direction}, distance {distance}, maxStep {maxSteps}, Route Count {Route.Count}");
 
 
             //If the direction is straight or is left or right and decreases number of steps
