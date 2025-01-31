@@ -18,6 +18,7 @@ public class CarAgent : Agent
 
     public GameObject Target;
     public GameObject[] Targets;
+    public GameObject TargetsObj;
     private int targetX, targetY;
     public Grid grid;
 
@@ -61,6 +62,8 @@ public class CarAgent : Agent
     float rIncorrectNode = 0f;
     float rTimeAtNode = 0f;
     float rTrainingWheels = 0f;
+
+    int targetNumber = 0;
 
     public TextMeshProUGUI lblTowardsNode;
     public TextMeshProUGUI lblAwayNode;
@@ -295,6 +298,7 @@ public class CarAgent : Agent
         if (AtTarget)
         {
             Debug.Log("Got to end");
+            targetNumber++;
             AddReward(1f);
             rAtTarget += 1f;
             EndEpisode();
@@ -569,16 +573,17 @@ public class CarAgent : Agent
         //Choose a random target
         //TODO put into a managers class;
         Node random = grid.GetRandomNode();
-        GameObject nextTarget = Targets[Random.Range(0, Targets.Length)];
-        Target.transform.position = nextTarget.transform.position;
+        //GameObject nextTarget = Targets[Random.Range(0, Targets.Length)];
+        Transform nextTarget = TargetsObj.transform.GetChild(targetNumber);
+        Target.transform.position = nextTarget.position;
         Node n = grid.GetNodeFromWorldPoint(Target.transform.position);
         targetX = n.GridX;
         targetY = n.GridY;
         // Target.transform.position = random.transform.position;
         //transform.position = new Vector3(0, 0.15f, 0);
         transform.position = new Vector3(Random.Range(-5, 5), 0.15F, Random.Range(-5, 5));
-        // transform.rotation = Quaternion.identity;
-        transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+         transform.rotation = Quaternion.identity;
+        //transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         rb.velocity = Vector3.zero;
         AtTarget = false;
         lastChecked = 0;

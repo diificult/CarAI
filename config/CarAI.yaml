@@ -20,12 +20,6 @@ behaviors:
             extrinsic:
                 gamma: 0.99
                 strength: 1.0
-            gail:
-                strength: 0.5
-                demo_path: Demos\CarDemo_12.demo
-        behavioral_cloning:
-            strength: 0.5
-            demo_path: Demos\CarDemo_12.demo
         max_steps: 5.0e8
         time_horizon: 256
         summary_freq: 20000
