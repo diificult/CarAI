@@ -62,8 +62,11 @@ public class CarAgent : Agent
     float rIncorrectNode = 0f;
     float rTimeAtNode = 0f;
     float rTrainingWheels = 0f;
+    float rTurn = 0f;
+    
 
     int targetNumber = 0;
+    int countTarget = 0;
 
     public TextMeshProUGUI lblTowardsNode;
     public TextMeshProUGUI lblAwayNode;
@@ -72,6 +75,8 @@ public class CarAgent : Agent
     public TextMeshProUGUI lblCorrectNode;
     public TextMeshProUGUI lblIncorrectNode;
     public TextMeshProUGUI lblTimeAtNode;
+    public TextMeshProUGUI lblTurnReward;
+
     private Rigidbody rb;
 
     private Tuple<int, int> lastInstruction;
@@ -118,7 +123,7 @@ public class CarAgent : Agent
         lblTowardsNode.text = "Towards Goal " + rTowardsNode;
         lblAwayNode.text = "Away from goal " + rAwayNode;
         lblFalling.text = "Falling Off " + rFalling;
-        lblAtTarget.text = "At Target " + rAtTarget;
+        lblAtTarget.text = "Turn " + rTurn;
         lblCorrectNode.text = "Training Wheels " + rTrainingWheels;
         lblIncorrectNode.text = " " + rIncorrectNode;
         lblTimeAtNode.text = "Time At Node " + rTimeAtNode;
@@ -257,18 +262,36 @@ public class CarAgent : Agent
         //Velocity
         sensor.AddObservation(v.x / 18.0f);
         sensor.AddObservation(v.z / 18.0f);
-     //   sensor.AddObservation(Route[0].GridX / 15.0f);
-   //     sensor.AddObservation(Route[0].GridY / 15.0f);
+        //   sensor.AddObservation(Route[0].GridX / 15.0f);
+        //     sensor.AddObservation(Route[0].GridY / 15.0f);
         sensor.AddObservation((targetX - Route[0].GridX) / 10.0f);
         sensor.AddObservation((targetY - Route[0].GridY) / 10.0f);
-        sensor.AddObservation(transform.position.x / 210f);
-        sensor.AddObservation(transform.position.z / 210f);
+
+        //sensor.AddObservation(transform.position.x / 210f);
+       // sensor.AddObservation(transform.position.z / 210f);
         sensor.AddObservation(LastDistanceToNextNode / 20f);
-        sensor.AddObservation(transform.rotation.y);
-        sensor.AddObservation(distance / 15.0f);
+        if (Route.Count > 1)
+        {
+            Vector3 directionToNode = (Route[1].transform.position - transform.position).normalized;
+            float angleToNode = Vector3.SignedAngle(transform.forward, directionToNode, Vector3.up) / 180f;
+            sensor.AddObservation(angleToNode);
+            Vector3 localNodePos = transform.InverseTransformPoint(Route[1].transform.position);
+            sensor.AddObservation(localNodePos.x / 20.0f);
+            sensor.AddObservation(localNodePos.z / 20.0f);
+        }
+        if (Route.Count > 2)
+        {
+            Vector3 futureNodePos = transform.InverseTransformPoint(Route[2].transform.position);
+            sensor.AddObservation(futureNodePos.x / 20.0f);
+            sensor.AddObservation(futureNodePos.z / 20.0f);
+        }
+        // sensor.AddObservation(transform.rotation.y);
+        sensor.AddObservation(Mathf.Sin(transform.rotation.eulerAngles.y * Mathf.Deg2Rad));
+        sensor.AddObservation(Mathf.Cos(transform.rotation.eulerAngles.y * Mathf.Deg2Rad));
+        
         float speed = v.magnitude / 18f;
         sensor.AddObservation(speed);
-
+        sensor.AddObservation(distance / 15.0f);
         AddOneHotEncoding(sensor, Direction + 1, 4);
         // Debug.Log("Current Observatios: Vx " + gameObject.GetComponent<Rigidbody>().velocity.x / 8.0f + ", Vy" + gameObject.GetComponent<Rigidbody>().velocity.z /8.0f + ", PosX: " + (Route[0].GridX / 15.0f) + " PosY: " + (((float)Route[0].GridY) / 15.0f) + " Distance: " + (distance / 15.0f));
 
@@ -298,7 +321,12 @@ public class CarAgent : Agent
         if (AtTarget)
         {
             Debug.Log("Got to end");
-            targetNumber++;
+            countTarget++;
+            if (countTarget == 4)
+            {
+                targetNumber++;
+                countTarget = 0;
+            }
             AddReward(1f);
             rAtTarget += 1f;
             EndEpisode();
@@ -327,6 +355,7 @@ public class CarAgent : Agent
         }
         */
 
+
         if (TrainingWheels)
         {
             /*   float distanceToNextNode = Vector3.Distance(Route[1].transform.position, this.transform.position);
@@ -341,6 +370,15 @@ public class CarAgent : Agent
                    LastDistanceToNextNode = distanceToNextNode;
                }
             */
+            if (Route.Count > 1)
+            {
+                Vector3 directionToNode = (Route[1].transform.position - transform.position).normalized;
+                float angleToNode = Vector3.SignedAngle(transform.forward, directionToNode, Vector3.up) / 180f;
+                float reward = 1.0f - Mathf.Abs(angleToNode) / 180.0f; // Closer to 0° = more reward
+                AddReward((reward - 0.994f) * 0.01f);
+                lblTurnReward.text = "Current Angle Reward: " + ((reward - 0.994f) * 0.01f);
+                rTurn += (reward - 0.994f) * 0.01f;
+            }
             float distanceToNextNode = 0f;
 
             if (transform.position.x > Route[1].transform.position.x + 10)
@@ -373,7 +411,7 @@ public class CarAgent : Agent
 
             if (LastDistanceToNextNode != 0)
             {
-                float progressReward = ((LastDistanceToNextNode - distanceToNextNode) * Mathf.Exp(-timeAtCurrentNode * decayFactor)) / 100f;
+                float progressReward = ((LastDistanceToNextNode - distanceToNextNode) * Mathf.Exp(-timeAtCurrentNode * decayFactor)) / 80f;
                 AddReward(progressReward);
                 rTrainingWheels += progressReward;
 
@@ -385,7 +423,7 @@ public class CarAgent : Agent
         if (lastInstruction == null) lastInstruction = new Tuple<int, int>(Direction, distance);
         else if (lastInstruction.Item1 != Direction || lastInstruction.Item2 != distance)
         {
-       //     Debug.Log($"New instruction: Direction {Direction}, distance {distance}, maxStep {maxSteps}, Route Count {Route.Count}");
+            //     Debug.Log($"New instruction: Direction {Direction}, distance {distance}, maxStep {maxSteps}, Route Count {Route.Count}");
 
 
             //If the direction is straight or is left or right and decreases number of steps
@@ -401,15 +439,15 @@ public class CarAgent : Agent
             {
                 //Correct
                 //Done the correct instruction
-                AddReward(0.15f);
-                rTowardsNode += 0.15f;
+                AddReward(0.2f);
+                rTowardsNode += 0.2f;
                 maxSteps = Route.Count;
 
 
             }
             else if (Route.Count == maxSteps)
             {
-             
+
                 if (lastInstruction.Item1 == 0 && (Direction == 1 || Direction == 3))
                 {
                     //Incorrect
@@ -428,8 +466,8 @@ public class CarAgent : Agent
                 {
                     //Correct
                     //Done the correct instruction
-                    AddReward(0.15f);
-                    rTowardsNode += 0.15f;
+                    AddReward(0.2f);
+                    rTowardsNode += 0.2f;
                     maxSteps = Route.Count;
                 }
 
@@ -569,6 +607,7 @@ public class CarAgent : Agent
         rIncorrectNode = 0f;
         rTimeAtNode = 0f;
         rTrainingWheels = 0f;
+        rTurn = 0f;
 
         //Choose a random target
         //TODO put into a managers class;
@@ -582,7 +621,7 @@ public class CarAgent : Agent
         // Target.transform.position = random.transform.position;
         //transform.position = new Vector3(0, 0.15f, 0);
         transform.position = new Vector3(Random.Range(-5, 5), 0.15F, Random.Range(-5, 5));
-         transform.rotation = Quaternion.identity;
+        transform.rotation = Quaternion.identity;
         //transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         rb.velocity = Vector3.zero;
         AtTarget = false;

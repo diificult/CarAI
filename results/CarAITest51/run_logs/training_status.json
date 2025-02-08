@@ -1,0 +1,65 @@
+{
+    "CarAI": {
+        "checkpoints": [
+            {
+                "steps": 20119,
+                "file_path": "results\\CarAITest51\\CarAI\\CarAI-20119.onnx",
+                "reward": 713.5533807236934,
+                "creation_time": 1738753770.668365,
+                "auxillary_file_paths": [
+                    "results\\CarAITest51\\CarAI\\CarAI-20119.pt"
+                ]
+            },
+            {
+                "steps": 84636,
+                "file_path": "results\\CarAITest51\\CarAI\\CarAI-84636.onnx",
+                "reward": 0.540347291091166,
+                "creation_time": 1738754029.8369358,
+                "auxillary_file_paths": [
+                    "results\\CarAITest51\\CarAI\\CarAI-84636.pt"
+                ]
+            },
+            {
+                "steps": 145102,
+                "file_path": "results\\CarAITest51\\CarAI\\CarAI-145102.onnx",
+                "reward": 0.35560068930499256,
+                "creation_time": 1738754446.4499335,
+                "auxillary_file_paths": [
+                    "results\\CarAITest51\\CarAI\\CarAI-145102.pt"
+                ]
+            },
+            {
+                "steps": 170883,
+                "file_path": "results\\CarAITest51\\CarAI\\CarAI-170883.onnx",
+                "reward": 0.16100378707051277,
+                "creation_time": 1738754634.6022723,
+                "auxillary_file_paths": [
+                    "results\\CarAITest51\\CarAI\\CarAI-170883.pt"
+                ]
+            },
+            {
+                "steps": 181139,
+                "file_path": "results\\CarAITest51\\CarAI\\CarAI-181139.onnx",
+                "reward": null,
+                "creation_time": 1738754900.028879,
+                "auxillary_file_paths": [
+                    "results\\CarAITest51\\CarAI\\CarAI-181139.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 181139,
+            "file_path": "results\\CarAITest51\\CarAI.onnx",
+            "reward": null,
+            "creation_time": 1738754900.028879,
+            "auxillary_file_paths": [
+                "results\\CarAITest51\\CarAI\\CarAI-181139.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
