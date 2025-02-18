@@ -262,36 +262,48 @@ public class CarAgent : Agent
         //Velocity
         sensor.AddObservation(v.x / 18.0f);
         sensor.AddObservation(v.z / 18.0f);
-        //   sensor.AddObservation(Route[0].GridX / 15.0f);
-        //     sensor.AddObservation(Route[0].GridY / 15.0f);
+        //speed
+        float speed = v.magnitude / 18f;
+        sensor.AddObservation(speed);
+        //Position on board
+        sensor.AddObservation(Route[0].GridX / 15.0f);
+        sensor.AddObservation(Route[0].GridY / 15.0f);
+
+
+        //distance to target
         sensor.AddObservation((targetX - Route[0].GridX) / 10.0f);
         sensor.AddObservation((targetY - Route[0].GridY) / 10.0f);
 
         //sensor.AddObservation(transform.position.x / 210f);
        // sensor.AddObservation(transform.position.z / 210f);
         sensor.AddObservation(LastDistanceToNextNode / 20f);
+
+
         if (Route.Count > 1)
         {
-            Vector3 directionToNode = (Route[1].transform.position - transform.position).normalized;
-            float angleToNode = Vector3.SignedAngle(transform.forward, directionToNode, Vector3.up) / 180f;
-            sensor.AddObservation(angleToNode);
+            //angle to node
+            Vector3 dirToNode = (Route[1].transform.position - transform.position).normalized;
+            sensor.AddObservation(dirToNode.x);
+            sensor.AddObservation(dirToNode.z);
+            //Next node position
             Vector3 localNodePos = transform.InverseTransformPoint(Route[1].transform.position);
             sensor.AddObservation(localNodePos.x / 20.0f);
             sensor.AddObservation(localNodePos.z / 20.0f);
         }
         if (Route.Count > 2)
         {
+            //Future node position
             Vector3 futureNodePos = transform.InverseTransformPoint(Route[2].transform.position);
             sensor.AddObservation(futureNodePos.x / 20.0f);
             sensor.AddObservation(futureNodePos.z / 20.0f);
         }
-        // sensor.AddObservation(transform.rotation.y);
+       
         sensor.AddObservation(Mathf.Sin(transform.rotation.eulerAngles.y * Mathf.Deg2Rad));
         sensor.AddObservation(Mathf.Cos(transform.rotation.eulerAngles.y * Mathf.Deg2Rad));
         
-        float speed = v.magnitude / 18f;
-        sensor.AddObservation(speed);
+        //distance for next instruction
         sensor.AddObservation(distance / 15.0f);
+        //Direction
         AddOneHotEncoding(sensor, Direction + 1, 4);
         // Debug.Log("Current Observatios: Vx " + gameObject.GetComponent<Rigidbody>().velocity.x / 8.0f + ", Vy" + gameObject.GetComponent<Rigidbody>().velocity.z /8.0f + ", PosX: " + (Route[0].GridX / 15.0f) + " PosY: " + (((float)Route[0].GridY) / 15.0f) + " Distance: " + (distance / 15.0f));
 
@@ -439,7 +451,7 @@ public class CarAgent : Agent
             {
                 //Correct
                 //Done the correct instruction
-                AddReward(0.2f);
+                AddReward(0.1f);
                 rTowardsNode += 0.2f;
                 maxSteps = Route.Count;
 
@@ -466,7 +478,7 @@ public class CarAgent : Agent
                 {
                     //Correct
                     //Done the correct instruction
-                    AddReward(0.2f);
+                    AddReward(0.1f);
                     rTowardsNode += 0.2f;
                     maxSteps = Route.Count;
                 }
