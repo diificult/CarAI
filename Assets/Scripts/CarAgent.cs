@@ -46,6 +46,8 @@ public class CarAgent : Agent
 
     public bool FallenOff = false;
 
+    bool touchingWall = false;
+
     public Node CurrentNode;
     public Node CurrentNextNode;
     public float timeAtCurrentNode = 0;
@@ -66,6 +68,7 @@ public class CarAgent : Agent
     
 
     int targetNumber = 0;
+    int episodeTargetCount = 0;
     int countTarget = 0;
 
     public TextMeshProUGUI lblTowardsNode;
@@ -76,6 +79,7 @@ public class CarAgent : Agent
     public TextMeshProUGUI lblIncorrectNode;
     public TextMeshProUGUI lblTimeAtNode;
     public TextMeshProUGUI lblTurnReward;
+
 
     private Rigidbody rb;
 
@@ -90,6 +94,13 @@ public class CarAgent : Agent
         Node n = grid.GetNodeFromWorldPoint(Target.transform.position);
         targetX = n.GridX;
         targetY = n.GridY;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            touchingWall = true;
+        }
     }
 
 
@@ -334,16 +345,17 @@ public class CarAgent : Agent
         {
             Debug.Log("Got to end");
             countTarget++;
+
             if (countTarget == 4)
             {
-                targetNumber++;
+                targetNumber = targetNumber >= 19 ? 0 : targetNumber++;
                 countTarget = 0;
             }
             AddReward(1f);
             rAtTarget += 1f;
             EndEpisode();
         }
-        else if (this.transform.localPosition.y < 0.06)
+        else if (this.transform.localPosition.y < 0.03)
         {
             AddReward(-16.0f / 35.0f);
             rFalling += -16.0f / 35.0f;
@@ -451,7 +463,7 @@ public class CarAgent : Agent
             {
                 //Correct
                 //Done the correct instruction
-                AddReward(0.1f);
+                AddReward(0.13f);
                 rTowardsNode += 0.2f;
                 maxSteps = Route.Count;
 
@@ -478,7 +490,7 @@ public class CarAgent : Agent
                 {
                     //Correct
                     //Done the correct instruction
-                    AddReward(0.1f);
+                    AddReward(0.13f);
                     rTowardsNode += 0.2f;
                     maxSteps = Route.Count;
                 }
