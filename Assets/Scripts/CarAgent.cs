@@ -65,6 +65,7 @@ public class CarAgent : Agent
     float rTimeAtNode = 0f;
     float rTrainingWheels = 0f;
     float rTurn = 0f;
+    float rTouchingWall;
     
 
     int targetNumber = 0;
@@ -79,6 +80,7 @@ public class CarAgent : Agent
     public TextMeshProUGUI lblIncorrectNode;
     public TextMeshProUGUI lblTimeAtNode;
     public TextMeshProUGUI lblTurnReward;
+    public TextMeshProUGUI lblTouchingWall;
 
 
     private Rigidbody rb;
@@ -97,19 +99,23 @@ public class CarAgent : Agent
     }
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Collision with" + collision.gameObject.tag);
         if (collision.gameObject.CompareTag("Wall"))
         {
             touchingWall = true;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            touchingWall = false;
         }
     }
 
 
     public void FixedUpdate()
     {
-
-        /// DETERMINE MAX VELOCITY
-        // if (rb.velocity.y > vyMax) vyMax = GetComponent<Rigidbody>().velocity.z;
-        //   if (GetComponent<Rigidbody>().velocity.x > vxMax) vxMax = GetComponent<Rigidbody>().velocity.x;
 
         yPos.text = "Local Y Pos: " + this.transform.localPosition.y;
         Reward.text = "Current Reward: " + GetCumulativeReward();
@@ -138,6 +144,7 @@ public class CarAgent : Agent
         lblCorrectNode.text = "Training Wheels " + rTrainingWheels;
         lblIncorrectNode.text = " " + rIncorrectNode;
         lblTimeAtNode.text = "Time At Node " + rTimeAtNode;
+        lblTouchingWall.text = "Touching wall " + rTouchingWall;
 
         GetPath();
         lastChecked = 0;
@@ -311,6 +318,8 @@ public class CarAgent : Agent
        
         sensor.AddObservation(Mathf.Sin(transform.rotation.eulerAngles.y * Mathf.Deg2Rad));
         sensor.AddObservation(Mathf.Cos(transform.rotation.eulerAngles.y * Mathf.Deg2Rad));
+
+        sensor.AddObservation(touchingWall);
         
         //distance for next instruction
         sensor.AddObservation(distance / 15.0f);
@@ -348,7 +357,7 @@ public class CarAgent : Agent
 
             if (countTarget == 4)
             {
-                targetNumber = targetNumber >= 19 ? 0 : targetNumber++;
+                targetNumber = targetNumber >= 19 ? 0 : targetNumber + 1;
                 countTarget = 0;
             }
             AddReward(1f);
@@ -365,35 +374,15 @@ public class CarAgent : Agent
         {
             maxSteps = Route.Count;
         }
-        /*
-        if (TrainingWheels)
+
+        if (touchingWall)
         {
-            float distanceToNextNode = Vector3.Distance(Route[1].transform.position, this.transform.position);
-            if (LastDistanceToNextNode == 0) { LastDistanceToNextNode = distanceToNextNode; }
-            else
-            {
-                AddReward((LastDistanceToNextNode - distanceToNextNode) / 50f);
-                rTrainingWheels += (LastDistanceToNextNode - distanceToNextNode) / 50f;
-                LastDistanceToNextNode = distanceToNextNode;
-            }
+            AddReward(-0.001f);
+            rTouchingWall += -0.001f;
         }
-        */
-
-
         if (TrainingWheels)
         {
-            /*   float distanceToNextNode = Vector3.Distance(Route[1].transform.position, this.transform.position);
-               if (LastDistanceToNextNode == 0) { LastDistanceToNextNode = distanceToNextNode; }
-               else
-               {
-                   float progressReward = ((LastDistanceToNextNode - distanceToNextNode) * Mathf.Exp(-timeAtCurrentNode * decayFactor)) / 100f;
-                   AddReward(progressReward);
-                   rTrainingWheels += progressReward;
 
-                   // Update last distance
-                   LastDistanceToNextNode = distanceToNextNode;
-               }
-            */
             if (Route.Count > 1)
             {
                 Vector3 directionToNode = (Route[1].transform.position - transform.position).normalized;
@@ -507,98 +496,7 @@ public class CarAgent : Agent
 
             lastInstruction = new Tuple<int, int>(Direction, distance);
 
-
-
-
-
-
-
-
-
-
-            /*
-                if ((lastInstruction.Item1 == 1 || lastInstruction.Item1 == 3))
-                {
-                    if (Direction == 0 || ((Direction == 1 || Direction == 3) && Route.Count <= MaxStep ))
-                    {
-                        if (lastInstruction.Item2 < distance)
-                        {
-                            //Done the correct instruction
-                            AddReward(0.15f);
-                            rTowardsNode += 0.15f;
-                            maxSteps = Route.Count;
-                        } else if ( distance < lastInstruction.Item2 && Route.Count < MaxStep)
-                        {
-                            //Done the correct instruction
-                            AddReward(0.15f);
-                            rTowardsNode += 0.15f;
-                            maxSteps = Route.Count;
-                        }
-                        else
-                        {
-                            // Done the incorrect instruction
-                            AddReward(-0.15f);
-                            rAwayNode += -0.15f;
-                            maxSteps = Route.Count;
-                        }
-
-                    }
-                    else
-                    {
-                        //failed instruction
-                        AddReward(-0.15f );
-                        rAwayNode += -0.15f;
-                        maxSteps = Route.Count;
-                    }
-                }
-                else if (distance < lastInstruction.Item2)
-                {
-                    //Gotten closer so correct instruction
-                    AddReward(0.15f);
-                    rTowardsNode += 0.15f;
-                    maxSteps = Route.Count;
-                } else if (lastInstruction.Item1 == 2 && (Direction == 1 || Direction == 3)) 
-                {
-                    //Gotten closer so correct instruction
-                    AddReward(0.15f);
-                    rTowardsNode += 0.15f;
-                    maxSteps = Route.Count;
-                }
-                else
-                {
-                    AddReward(-0.15f);
-                    rAwayNode += -0.15f;
-                    maxSteps = Route.Count;
-                }
-                lastInstruction = new Tuple<int, int>(Direction, distance);
-            */
         }
-
-        /*
-        if (Route.Count < maxSteps)
-        {
-
-            AddReward(0.15f * (maxSteps - Route.Count));
-            rTowardsNode += 0.15f * (maxSteps - Route.Count);
-            maxSteps = Route.Count;
-        }
-        else if (Route.Count > maxSteps)
-        {
-            AddReward(-0.15f * (Route.Count - maxSteps));
-            rAwayNode += -0.15f * (Route.Count - maxSteps);
-            maxSteps = Route.Count;
-        }
-        */
-
-        /*
-        if (lengthAtCurrentNode > 60)
-        {
-            AddReward(-0.005f * Time.deltaTime);
-            rTimeAtNode += -0.005f * Time.deltaTime;
-        }
-        */
-
-
 
         float totalReward = rTrainingWheels + rTowardsNode + rAwayNode + rTimeAtNode + rAtTarget + rFalling;
         //     Debug.Log($"Total Reward: {totalReward}, Step: {StepCount}");
@@ -632,6 +530,7 @@ public class CarAgent : Agent
         rTimeAtNode = 0f;
         rTrainingWheels = 0f;
         rTurn = 0f;
+        rTouchingWall = 0f;
 
         //Choose a random target
         //TODO put into a managers class;
