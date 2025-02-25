@@ -38,6 +38,10 @@
 
 This projects goal is to create a self driving car that follows SatNav instructions to reach a selection of goals, following road laws such as following traffic lights.
 
+Current State of Project:
+ The AI is able to get to goals quickly and efficently while avoiding walls. It is also able to turn around if required.
+
+This project is on pause as of: [DATE OF PAUSE] and will be returned to.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -55,7 +59,7 @@ This projects goal is to create a self driving car that follows SatNav instructi
 <!-- GETTING STARTED -->
 ## Getting Started
 
-TODO
+Project is not yet been created for standalone 
 
 
 <!-- USAGE EXAMPLES -->
