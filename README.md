@@ -86,6 +86,8 @@ TODO
  - [ ] Human Interaction
     - [ ] Player can call car
     - [ ] Player can choose destination
+ - [ ] Human View
+    - [ ] Top down view of AI moving around
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
