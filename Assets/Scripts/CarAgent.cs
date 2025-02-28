@@ -19,7 +19,7 @@ public class CarAgent : Agent
     public GameObject Target;
     public GameObject[] Targets;
     public GameObject TargetsObj;
-    private int targetX, targetY;
+    [SerializeField] private int targetX, targetY;
     public Grid grid;
 
     public List<Node> Route;
@@ -260,7 +260,7 @@ public class CarAgent : Agent
 
     public override void Initialize()
     {
-        //Initalise
+       
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -366,6 +366,7 @@ public class CarAgent : Agent
         }
         else if (this.transform.localPosition.y < 0.03)
         {
+            Debug.Log("Fell off");
             AddReward(-16.0f / 35.0f);
             rFalling += -16.0f / 35.0f;
             EndEpisode();
@@ -519,7 +520,7 @@ public class CarAgent : Agent
     public override void OnEpisodeBegin()
     {
 
-
+        Debug.Log("New Episode");
         //Resets rewards counters
         rTowardsNode = 0f;
         rAwayNode = 0f;
@@ -536,14 +537,14 @@ public class CarAgent : Agent
         //TODO put into a managers class;
         Node random = grid.GetRandomNode();
         //GameObject nextTarget = Targets[Random.Range(0, Targets.Length)];
-        Transform nextTarget = TargetsObj.transform.GetChild(targetNumber);
-        Target.transform.position = nextTarget.position;
+        //    Transform nextTarget = TargetsObj.transform.GetChild(targetNumber);
+        // Target.transform.position = nextTarget.position;
+        InitPositions();
         Node n = grid.GetNodeFromWorldPoint(Target.transform.position);
         targetX = n.GridX;
         targetY = n.GridY;
         // Target.transform.position = random.transform.position;
         //transform.position = new Vector3(0, 0.15f, 0);
-        transform.position = new Vector3(Random.Range(-5, 5), 0.15F, Random.Range(-5, 5));
         transform.rotation = Quaternion.identity;
         //transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         rb.velocity = Vector3.zero;
@@ -556,6 +557,18 @@ public class CarAgent : Agent
         LastDistanceToNextNode = 0f;
         maxSteps = 0;
         GetPath();
+    }
+
+    public void InitPositions()
+    {
+        Node random = grid.GetRandomNode();
+        Target.transform.position = random.transform.position;
+        do
+        {
+            random = grid.GetRandomNode();
+            Debug.Log(" mag " + (random.transform.position - Target.transform.position).magnitude + " " + random.transform.position + " " + Target.transform.position);
+        } while ((random.transform.position - Target.transform.position).magnitude < 40);
+        transform.position = random.transform.position + new Vector3(0f, 0.3f, 0f);
     }
 
 

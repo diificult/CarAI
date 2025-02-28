@@ -1,5 +1,7 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+
 <a id="readme-top"></a>
+
 <!--
 *** Thanks for checking out the Best-README-Template. If you have a suggestion
 *** that would make this better, please fork the repo and create a pull request
@@ -10,7 +12,6 @@
 
 [![Issues][issues-shield]][issues-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -31,69 +32,65 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 This projects goal is to create a self driving car that follows SatNav instructions to reach a selection of goals, following road laws such as following traffic lights.
 
 Current State of Project:
- The AI is able to get to goals quickly and efficently while avoiding walls. It is also able to turn around if required.
+The AI is able to get to goals quickly and efficently while avoiding walls. It is also able to turn around if required.
 
 This project is on pause as of: [DATE OF PAUSE] and will be returned to.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 ### Built With
 
-* Unity3D
-* MLAgents
+-   Unity3D
+-   MLAgents
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
-Project is not yet been created for standalone 
-
+Project is not yet been created for standalone
 
 <!-- USAGE EXAMPLES -->
+
 ## Demo
 
 TODO
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ROADMAP -->
+
 ## Roadmap
 
 ### Goals
-- [ ] AI starts in random location and ends at random location
-- [ ] AI has to go to 3 different goals
-- [ ] Real World Environment
-    - [ ] AI sticks to one side of the road
-    - [ ] AI can follow traffic lights
-    - [ ] Multiple AI's on the road that avoid eachother
-     
-### Extended Goals 
- - [ ] Human Interaction
-    - [ ] Player can call car
-    - [ ] Player can choose destination
- - [ ] Human View
-    - [ ] Top down view of AI moving around
 
+-   [x] AI starts in random location and ends at random location
+-   [ ] AI has to go to 3 different goals
+-   [ ] Real World Environment
+    -   [ ] AI sticks to one side of the road
+    -   [ ] AI can follow traffic lights
+    -   [ ] Multiple AI's on the road that avoid eachother
+
+### Extended Goals
+
+-   [ ] Human Interaction
+    -   [ ] Player can call car
+    -   [ ] Player can choose destination
+-   [ ] Human View
+    -   [ ] Top down view of AI moving around
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- CONTACT -->
+
 ## Contact
 
 Owen - contact@owenhowarth.co.uk
@@ -102,20 +99,18 @@ Project Link: [https://github.com/diificult/CarAI/](https://github.com/diificult
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ACKNOWLEDGMENTS -->
+
 ## Acknowledgments
 
-* [Read Me Template](https://github.com/othneildrew/Best-README-Template/tree/main)
-* [Car Model](https://assetstore.unity.com/packages/3d/vehicles/land/arcade-free-racing-car-161085)
+-   [Read Me Template](https://github.com/othneildrew/Best-README-Template/tree/main)
+-   [Car Model](https://assetstore.unity.com/packages/3d/vehicles/land/arcade-free-racing-car-161085)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
 [contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
