@@ -212,6 +212,7 @@ MonoBehaviour:
   GridY: 4
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1245460613}
+  nodeType: 0
 --- !u!65 &19439992
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -344,6 +345,140 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+--- !u!1 &22033476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 22033477}
+  - component: {fileID: 22033479}
+  - component: {fileID: 22033478}
+  m_Layer: 5
+  m_Name: Reward (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &22033477
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22033476}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0017795629, w: -0.99999845}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1152560541}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.204}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1673, y: -84}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &22033478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22033476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Correct Side: '
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: eccde0dff51e4354fa9adb1ffa7a7e36, type: 2}
+  m_sharedMaterial: {fileID: -5990816752453806450, guid: eccde0dff51e4354fa9adb1ffa7a7e36, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 72
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: -531.2494, w: -80.18872}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &22033479
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22033476}
+  m_CullTransparentMesh: 1
 --- !u!1001 &22187607
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -945,6 +1080,7 @@ MonoBehaviour:
   GridY: 1
   parent: {fileID: 0}
   TextMeshPro: {fileID: 656414246}
+  nodeType: 0
 --- !u!65 &43474158
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1333,6 +1469,7 @@ MonoBehaviour:
   GridY: 0
   parent: {fileID: 0}
   TextMeshPro: {fileID: 593176065}
+  nodeType: 1
 --- !u!65 &57164549
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1519,6 +1656,7 @@ MonoBehaviour:
   GridY: 1
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1303109269}
+  nodeType: 0
 --- !u!65 &61341554
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2521,6 +2659,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1197463660}
+  nodeType: 1
 --- !u!65 &118870137
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3481,6 +3620,7 @@ MonoBehaviour:
   GridY: 3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1939602729}
+  nodeType: 5
 --- !u!65 &167407984
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3606,6 +3746,7 @@ MonoBehaviour:
   GridY: 10
   parent: {fileID: 0}
   TextMeshPro: {fileID: 878357987}
+  nodeType: 6
 --- !u!65 &168430071
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4167,6 +4308,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1105184160}
+  nodeType: 1
 --- !u!65 &194601600
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5381,6 +5523,7 @@ MonoBehaviour:
   GridY: 3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1312753872}
+  nodeType: 1
 --- !u!65 &251750855
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5621,6 +5764,7 @@ MonoBehaviour:
   GridY: 10
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1389903831}
+  nodeType: 1
 --- !u!65 &265559368
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5868,6 +6012,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 721727755}
+  nodeType: 1
 --- !u!65 &271306422
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6120,6 +6265,7 @@ MonoBehaviour:
   GridY: 6
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1285489837}
+  nodeType: 0
 --- !u!65 &290141267
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6418,6 +6564,7 @@ MonoBehaviour:
   GridY: 5
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1645226377}
+  nodeType: 1
 --- !u!65 &335939552
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6775,6 +6922,7 @@ MonoBehaviour:
   GridY: 0
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1413470357}
+  nodeType: 3
 --- !u!65 &353296712
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7023,6 +7171,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1359146618}
+  nodeType: 1
 --- !u!65 &358997543
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7441,6 +7590,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1684420986}
+  nodeType: 1
 --- !u!65 &372777657
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7571,6 +7721,7 @@ MonoBehaviour:
   GridY: 3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1492749102}
+  nodeType: 1
 --- !u!65 &374774645
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7767,6 +7918,7 @@ MonoBehaviour:
   GridY: 0
   parent: {fileID: 0}
   TextMeshPro: {fileID: 427285096}
+  nodeType: 0
 --- !u!65 &386015879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8717,6 +8869,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 157883027}
+  nodeType: 1
 --- !u!65 &413904677
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8788,6 +8941,66 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 413904674}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &417725668
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -188.05328
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.2751923
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7221236502016878349, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: m_Name
+      value: Default Road
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5828939815189477073, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
 --- !u!1 &422676271
 GameObject:
   m_ObjectHideFlags: 0
@@ -8842,6 +9055,7 @@ MonoBehaviour:
   GridY: 5
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1262317507}
+  nodeType: 1
 --- !u!65 &422676274
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9386,6 +9600,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 510946850}
+  nodeType: 1
 --- !u!65 &447312606
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9572,6 +9787,7 @@ MonoBehaviour:
   GridY: 5
   parent: {fileID: 0}
   TextMeshPro: {fileID: 492636069}
+  nodeType: 5
 --- !u!65 &457180996
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10039,6 +10255,7 @@ MonoBehaviour:
   GridY: 10
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1707795295}
+  nodeType: 1
 --- !u!65 &465658571
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10169,6 +10386,7 @@ MonoBehaviour:
   GridY: 10
   parent: {fileID: 0}
   TextMeshPro: {fileID: 858431386}
+  nodeType: 5
 --- !u!65 &473662096
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10456,6 +10674,7 @@ MonoBehaviour:
   GridY: 10
   parent: {fileID: 0}
   TextMeshPro: {fileID: 209630505}
+  nodeType: 1
 --- !u!65 &481907013
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10989,6 +11208,7 @@ MonoBehaviour:
   GridY: 7
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1408534043}
+  nodeType: 0
 --- !u!65 &506629825
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11527,6 +11747,7 @@ MonoBehaviour:
   GridY: 10
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1987728919}
+  nodeType: 1
 --- !u!65 &538917596
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11823,6 +12044,7 @@ MonoBehaviour:
   GridY: 8
   parent: {fileID: 0}
   TextMeshPro: {fileID: 939650213}
+  nodeType: 6
 --- !u!65 &542004575
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12141,6 +12363,7 @@ MonoBehaviour:
   GridY: 8
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1485772322}
+  nodeType: 5
 --- !u!65 &579854539
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14288,6 +14511,7 @@ MonoBehaviour:
   GridY: 5
   parent: {fileID: 0}
   TextMeshPro: {fileID: 228741254}
+  nodeType: 1
 --- !u!65 &700356101
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15157,6 +15381,7 @@ MonoBehaviour:
   GridY: 0
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1800738810}
+  nodeType: 0
 --- !u!65 &727922896
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15685,6 +15910,7 @@ MonoBehaviour:
   GridY: 5
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1643691913}
+  nodeType: 1
 --- !u!65 &764302946
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16042,6 +16268,7 @@ MonoBehaviour:
   GridY: 0
   parent: {fileID: 0}
   TextMeshPro: {fileID: 462762299}
+  nodeType: 1
 --- !u!65 &783381610
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16519,7 +16746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.8829305
+      value: -108.8
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalPosition.y
@@ -16527,11 +16754,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.2799053
+      value: 54.2
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9999946
+      value: 0.7086524
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalRotation.x
@@ -16539,7 +16766,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0033102534
+      value: -0.7055579
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalRotation.z
@@ -16551,7 +16778,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0.379
+      value: -89.749
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -17231,6 +17458,7 @@ MonoBehaviour:
   GridY: 8
   parent: {fileID: 0}
   TextMeshPro: {fileID: 853061759}
+  nodeType: 1
 --- !u!65 &857823045
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17527,6 +17755,7 @@ MonoBehaviour:
   GridY: -1
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1192350408}
+  nodeType: 0
 --- !u!65 &870345155
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18538,6 +18767,7 @@ MonoBehaviour:
   GridY: 7
   parent: {fileID: 0}
   TextMeshPro: {fileID: 427458076}
+  nodeType: 0
 --- !u!65 &914935167
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18838,6 +19068,7 @@ MonoBehaviour:
   GridY: 1
   parent: {fileID: 0}
   TextMeshPro: {fileID: 412544109}
+  nodeType: 0
 --- !u!65 &928366432
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18968,6 +19199,7 @@ MonoBehaviour:
   GridY: 0
   parent: {fileID: 0}
   TextMeshPro: {fileID: 742374993}
+  nodeType: 1
 --- !u!65 &937352841
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19440,6 +19672,7 @@ MonoBehaviour:
   GridY: 8
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1784898526}
+  nodeType: 1
 --- !u!65 &945110908
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19699,6 +19932,7 @@ MonoBehaviour:
   GridY: 2
   parent: {fileID: 0}
   TextMeshPro: {fileID: 2140108273}
+  nodeType: 1
 --- !u!65 &950178188
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20273,6 +20507,140 @@ WheelCollider:
   m_LayerOverridePriority: 0
   m_Enabled: 1
   m_ProvidesContacts: 0
+--- !u!1 &984177435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 984177436}
+  - component: {fileID: 984177438}
+  - component: {fileID: 984177437}
+  m_Layer: 5
+  m_Name: CorrectSide
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &984177436
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984177435}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1152560541}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1098, y: 780}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &984177437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984177435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Correct Side of Road:'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: eccde0dff51e4354fa9adb1ffa7a7e36, type: 2}
+  m_sharedMaterial: {fileID: -5990816752453806450, guid: eccde0dff51e4354fa9adb1ffa7a7e36, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 72
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: -531.2494, w: -80.18872}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &984177438
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984177435}
+  m_CullTransparentMesh: 1
 --- !u!1 &984696021
 GameObject:
   m_ObjectHideFlags: 0
@@ -20327,6 +20695,7 @@ MonoBehaviour:
   GridY: 2
   parent: {fileID: 0}
   TextMeshPro: {fileID: 461052353}
+  nodeType: 1
 --- !u!65 &984696024
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20452,6 +20821,7 @@ MonoBehaviour:
   GridY: 8
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1952641946}
+  nodeType: 1
 --- !u!65 &989295104
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20638,6 +21008,7 @@ MonoBehaviour:
   GridY: 8
   parent: {fileID: 0}
   TextMeshPro: {fileID: 720261647}
+  nodeType: 2
 --- !u!65 &995172065
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20920,10 +21291,13 @@ MonoBehaviour:
   - {fileID: 2001771015}
   - {fileID: 790357928}
   TargetsObj: {fileID: 878927252}
+  targetX: 0
+  targetY: 0
   grid: {fileID: 210128777}
   Route: []
   pathMat: {fileID: 2100000, guid: b3d446459b4e2014a918f395670d50a5, type: 2}
   Road: {fileID: 2100000, guid: 912789f38ed43e04b8305bbb2bdcddc9, type: 2}
+  CorrectSideOfRoad: 0
   AtTarget: 0
   Direction: 0
   distance: 0
@@ -20944,6 +21318,8 @@ MonoBehaviour:
   lblTimeAtNode: {fileID: 147686141}
   lblTurnReward: {fileID: 950768629}
   lblTouchingWall: {fileID: 1101593991}
+  lblCorrectSideReward: {fileID: 22033478}
+  lblCorrectSide: {fileID: 984177437}
   TrainingWheels: 1
 --- !u!114 &1012521584
 MonoBehaviour:
@@ -20958,7 +21334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 22
+    VectorObservationSize: 23
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
@@ -21469,6 +21845,7 @@ MonoBehaviour:
   GridY: 10
   parent: {fileID: 0}
   TextMeshPro: {fileID: 540918356}
+  nodeType: 1
 --- !u!65 &1050442149
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21655,6 +22032,7 @@ MonoBehaviour:
   GridY: 5
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1537163204}
+  nodeType: 0
 --- !u!65 &1056175208
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22427,6 +22805,7 @@ MonoBehaviour:
   GridY: 0
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1621040963}
+  nodeType: 1
 --- !u!65 &1097768942
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23028,6 +23407,7 @@ MonoBehaviour:
   GridY: 4
   parent: {fileID: 0}
   TextMeshPro: {fileID: 175969614}
+  nodeType: 0
 --- !u!65 &1113344490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23521,8 +23901,10 @@ RectTransform:
   - {fileID: 147686140}
   - {fileID: 950768628}
   - {fileID: 1101593990}
+  - {fileID: 22033477}
   - {fileID: 790661374}
   - {fileID: 996071242}
+  - {fileID: 984177436}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -23682,6 +24064,7 @@ MonoBehaviour:
   GridY: 6
   parent: {fileID: 0}
   TextMeshPro: {fileID: 108272705}
+  nodeType: 0
 --- !u!65 &1176230297
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23928,6 +24311,7 @@ MonoBehaviour:
   GridY: 9
   parent: {fileID: 0}
   TextMeshPro: {fileID: 910718953}
+  nodeType: 0
 --- !u!65 &1188802434
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24693,6 +25077,7 @@ MonoBehaviour:
   GridY: 3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 369943934}
+  nodeType: 1
 --- !u!65 &1245373986
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24994,6 +25379,7 @@ MonoBehaviour:
   GridY: 2
   parent: {fileID: 0}
   TextMeshPro: {fileID: 675735404}
+  nodeType: 2
 --- !u!65 &1252012017
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25632,6 +26018,7 @@ MonoBehaviour:
   GridY: 3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1329311059}
+  nodeType: 2
 --- !u!65 &1265672766
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25757,6 +26144,7 @@ MonoBehaviour:
   GridY: 2
   parent: {fileID: 0}
   TextMeshPro: {fileID: 2069348805}
+  nodeType: 1
 --- !u!65 &1265677715
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25882,6 +26270,7 @@ MonoBehaviour:
   GridY: 3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1856239527}
+  nodeType: 2
 --- !u!65 &1275882507
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27094,6 +27483,7 @@ MonoBehaviour:
   GridY: 2
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1238485608}
+  nodeType: 0
 --- !u!65 &1329711069
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27423,6 +27813,7 @@ MonoBehaviour:
   GridY: 4
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1796999454}
+  nodeType: 0
 --- !u!65 &1346604843
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27919,6 +28310,7 @@ MonoBehaviour:
   GridY: 8
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1649488534}
+  nodeType: 1
 --- !u!65 &1371891697
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29076,6 +29468,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 55705641}
+  nodeType: 1
 --- !u!65 &1420345196
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29433,6 +29826,7 @@ MonoBehaviour:
   GridY: 3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1838584234}
+  nodeType: 0
 --- !u!65 &1432283384
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29619,6 +30013,7 @@ MonoBehaviour:
   GridY: -1
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1258665345}
+  nodeType: 0
 --- !u!65 &1439920678
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29805,6 +30200,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 406476163}
+  nodeType: 1
 --- !u!65 &1445613158
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30162,6 +30558,7 @@ MonoBehaviour:
   GridY: 6
   parent: {fileID: 0}
   TextMeshPro: {fileID: 937487559}
+  nodeType: 0
 --- !u!65 &1451596067
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30391,10 +30788,13 @@ MonoBehaviour:
   - {fileID: 2001771015}
   - {fileID: 790357928}
   TargetsObj: {fileID: 0}
+  targetX: 0
+  targetY: 0
   grid: {fileID: 210128777}
   Route: []
   pathMat: {fileID: 2100000, guid: b3d446459b4e2014a918f395670d50a5, type: 2}
   Road: {fileID: 2100000, guid: 912789f38ed43e04b8305bbb2bdcddc9, type: 2}
+  CorrectSideOfRoad: 0
   AtTarget: 0
   Direction: 0
   distance: 0
@@ -30415,6 +30815,8 @@ MonoBehaviour:
   lblTimeAtNode: {fileID: 147686141}
   lblTurnReward: {fileID: 0}
   lblTouchingWall: {fileID: 0}
+  lblCorrectSideReward: {fileID: 0}
+  lblCorrectSide: {fileID: 0}
   TrainingWheels: 1
 --- !u!1 &1467861762
 GameObject:
@@ -30641,6 +31043,7 @@ MonoBehaviour:
   GridY: 5
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1108454052}
+  nodeType: 2
 --- !u!65 &1468814643
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31943,6 +32346,7 @@ MonoBehaviour:
   GridY: 4
   parent: {fileID: 0}
   TextMeshPro: {fileID: 83444447}
+  nodeType: 0
 --- !u!65 &1504365257
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32547,6 +32951,7 @@ MonoBehaviour:
   GridY: 8
   parent: {fileID: 0}
   TextMeshPro: {fileID: 30004908}
+  nodeType: 1
 --- !u!65 &1541584689
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32794,6 +33199,7 @@ MonoBehaviour:
   GridY: 8
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1467861764}
+  nodeType: 1
 --- !u!65 &1563490352
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32919,6 +33325,7 @@ MonoBehaviour:
   GridY: 3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1632970800}
+  nodeType: 0
 --- !u!65 &1563815919
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33612,6 +34019,7 @@ MonoBehaviour:
   GridY: 10
   parent: {fileID: 0}
   TextMeshPro: {fileID: 99079176}
+  nodeType: 1
 --- !u!65 &1610098922
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33984,6 +34392,7 @@ MonoBehaviour:
   GridY: 9
   parent: {fileID: 0}
   TextMeshPro: {fileID: 953525731}
+  nodeType: 0
 --- !u!65 &1631947219
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35030,6 +35439,7 @@ MonoBehaviour:
   GridY: 5
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1024526091}
+  nodeType: 1
 --- !u!65 &1660064349
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35366,7 +35776,7 @@ Transform:
   m_GameObject: {fileID: 1670682701}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 58.9, y: 0.6129999, z: 59.9}
+  m_LocalPosition: {x: -71.4, y: 0.6129999, z: -63.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35668,6 +36078,7 @@ MonoBehaviour:
   GridY: 10
   parent: {fileID: 0}
   TextMeshPro: {fileID: 2131275807}
+  nodeType: 1
 --- !u!65 &1689475287
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36167,6 +36578,7 @@ MonoBehaviour:
   GridY: -2
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1451198532}
+  nodeType: 0
 --- !u!65 &1711104207
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36292,6 +36704,7 @@ MonoBehaviour:
   GridY: -1
   parent: {fileID: 0}
   TextMeshPro: {fileID: 663785795}
+  nodeType: 0
 --- !u!65 &1719353822
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36431,10 +36844,13 @@ MonoBehaviour:
   Target: {fileID: 1670682701}
   Targets: []
   TargetsObj: {fileID: 0}
+  targetX: 0
+  targetY: 0
   grid: {fileID: 210128777}
   Route: []
   pathMat: {fileID: 2100000, guid: b3d446459b4e2014a918f395670d50a5, type: 2}
   Road: {fileID: 2100000, guid: 912789f38ed43e04b8305bbb2bdcddc9, type: 2}
+  CorrectSideOfRoad: 0
   AtTarget: 0
   Direction: 0
   distance: 0
@@ -36455,6 +36871,8 @@ MonoBehaviour:
   lblTimeAtNode: {fileID: 147686141}
   lblTurnReward: {fileID: 0}
   lblTouchingWall: {fileID: 0}
+  lblCorrectSideReward: {fileID: 0}
+  lblCorrectSide: {fileID: 0}
   TrainingWheels: 1
 --- !u!114 &1735006518
 MonoBehaviour:
@@ -36940,6 +37358,7 @@ MonoBehaviour:
   GridY: 2
   parent: {fileID: 0}
   TextMeshPro: {fileID: 783288557}
+  nodeType: 2
 --- !u!65 &1769545793
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37475,6 +37894,7 @@ MonoBehaviour:
   GridY: 5
   parent: {fileID: 0}
   TextMeshPro: {fileID: 404736344}
+  nodeType: 2
 --- !u!65 &1780944697
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38328,6 +38748,7 @@ MonoBehaviour:
   GridY: 7
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1428416446}
+  nodeType: 0
 --- !u!65 &1812013344
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38529,6 +38950,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1150081095}
+  nodeType: 4
 --- !u!65 &1832072901
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38825,6 +39247,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 509435012}
+  nodeType: 1
 --- !u!65 &1840505836
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39011,6 +39434,7 @@ MonoBehaviour:
   GridY: 5
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1536031559}
+  nodeType: 1
 --- !u!65 &1847398612
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39136,6 +39560,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1391388315}
+  nodeType: 2
 --- !u!65 &1848053897
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39432,6 +39857,7 @@ MonoBehaviour:
   GridY: 1
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1590449474}
+  nodeType: 0
 --- !u!65 &1859291443
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39572,6 +39998,7 @@ MonoBehaviour:
   GridY: -2
   parent: {fileID: 0}
   TextMeshPro: {fileID: 897677096}
+  nodeType: 0
 --- !u!65 &1880493070
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39934,6 +40361,7 @@ MonoBehaviour:
   GridY: -2
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1667864533}
+  nodeType: 0
 --- !u!65 &1909947262
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40120,6 +40548,7 @@ MonoBehaviour:
   GridY: 2
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1083097654}
+  nodeType: 0
 --- !u!65 &1914253243
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40760,6 +41189,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 630441851}
+  nodeType: 3
 --- !u!65 &1962759869
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40885,6 +41315,7 @@ MonoBehaviour:
   GridY: 0
   parent: {fileID: 0}
   TextMeshPro: {fileID: 2046795020}
+  nodeType: 5
 --- !u!65 &1980531724
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41346,6 +41777,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 786864059}
+  nodeType: 1
 --- !u!65 &2014511558
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41583,6 +42015,7 @@ MonoBehaviour:
   GridY: 3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 593485768}
+  nodeType: 1
 --- !u!65 &2046079964
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42215,10 +42648,13 @@ MonoBehaviour:
   - {fileID: 2001771015}
   - {fileID: 790357928}
   TargetsObj: {fileID: 0}
+  targetX: 0
+  targetY: 0
   grid: {fileID: 210128777}
   Route: []
   pathMat: {fileID: 2100000, guid: b3d446459b4e2014a918f395670d50a5, type: 2}
   Road: {fileID: 2100000, guid: 912789f38ed43e04b8305bbb2bdcddc9, type: 2}
+  CorrectSideOfRoad: 0
   AtTarget: 0
   Direction: 0
   distance: 0
@@ -42239,6 +42675,8 @@ MonoBehaviour:
   lblTimeAtNode: {fileID: 147686141}
   lblTurnReward: {fileID: 0}
   lblTouchingWall: {fileID: 0}
+  lblCorrectSideReward: {fileID: 0}
+  lblCorrectSide: {fileID: 0}
   TrainingWheels: 1
 --- !u!1 &2056762160
 GameObject:
@@ -42294,6 +42732,7 @@ MonoBehaviour:
   GridY: 3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1736485827}
+  nodeType: 1
 --- !u!65 &2056762163
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42424,6 +42863,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 1491757867}
+  nodeType: 1
 --- !u!65 &2060528004
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42914,6 +43354,7 @@ MonoBehaviour:
   GridY: 8
   parent: {fileID: 0}
   TextMeshPro: {fileID: 113150382}
+  nodeType: 0
 --- !u!65 &2089307333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43175,6 +43616,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7032318614307277566, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
+      propertyPath: nodeType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7221236502016878349, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
       propertyPath: m_Name
       value: Road
@@ -43246,6 +43691,7 @@ MonoBehaviour:
   GridY: -3
   parent: {fileID: 0}
   TextMeshPro: {fileID: 500483188}
+  nodeType: 1
 --- !u!65 &2108277525
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43914,3 +44360,4 @@ SceneRoots:
   - {fileID: 679746918}
   - {fileID: 874508417}
   - {fileID: 356255298}
+  - {fileID: 417725668}

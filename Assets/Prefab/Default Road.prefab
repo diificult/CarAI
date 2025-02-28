@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 5487569914715563141}
   - component: {fileID: 7032318614307277566}
   m_Layer: 6
-  m_Name: Cube
+  m_Name: Default Road
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

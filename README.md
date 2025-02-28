@@ -77,7 +77,7 @@ TODO
 -   [ ] Real World Environment
     -   [ ] AI sticks to one side of the road
     -   [ ] AI can follow traffic lights
-    -   [ ] Multiple AI's on the road that avoid eachother
+    -   [ ] Multiple AI's on the road that avoid each other
 
 ### Extended Goals
 
@@ -86,6 +86,9 @@ TODO
     -   [ ] Player can choose destination
 -   [ ] Human View
     -   [ ] Top down view of AI moving around
+-   [ ] World Generator
+    -   [ ] Player places roads
+    -   [ ] Nodes are automatically detected
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
