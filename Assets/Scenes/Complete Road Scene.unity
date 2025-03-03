@@ -8941,66 +8941,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 413904674}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &417725668
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -188.05328
-      objectReference: {fileID: 0}
-    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2.2751923
-      objectReference: {fileID: 0}
-    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6074901855079114628, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7221236502016878349, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      propertyPath: m_Name
-      value: Default Road
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5828939815189477073, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: 3f93786721dc4aa4abf449c757b6b679, type: 3}
 --- !u!1 &422676271
 GameObject:
   m_ObjectHideFlags: 0
@@ -21309,6 +21249,8 @@ MonoBehaviour:
   timeAtCurrentNode: 0
   LastDistanceToNextNode: 0
   decayFactor: 0.09
+  rewardCorrectSide: 0.002
+  rewardTouchingWall: 0.002
   lblTowardsNode: {fileID: 1408254245}
   lblAwayNode: {fileID: 1993508708}
   lblFalling: {fileID: 924500492}
@@ -30806,6 +30748,8 @@ MonoBehaviour:
   timeAtCurrentNode: 0
   LastDistanceToNextNode: 0
   decayFactor: 0.1
+  rewardCorrectSide: 0.005
+  rewardTouchingWall: 0.005
   lblTowardsNode: {fileID: 1408254245}
   lblAwayNode: {fileID: 1993508708}
   lblFalling: {fileID: 924500492}
@@ -36862,6 +36806,8 @@ MonoBehaviour:
   timeAtCurrentNode: 0
   LastDistanceToNextNode: 0
   decayFactor: 0.1
+  rewardCorrectSide: 0.005
+  rewardTouchingWall: 0.005
   lblTowardsNode: {fileID: 1408254245}
   lblAwayNode: {fileID: 1993508708}
   lblFalling: {fileID: 924500492}
@@ -42666,6 +42612,8 @@ MonoBehaviour:
   timeAtCurrentNode: 0
   LastDistanceToNextNode: 0
   decayFactor: 0.1
+  rewardCorrectSide: 0.005
+  rewardTouchingWall: 0.005
   lblTowardsNode: {fileID: 1408254245}
   lblAwayNode: {fileID: 1993508708}
   lblFalling: {fileID: 924500492}
@@ -44360,4 +44308,3 @@ SceneRoots:
   - {fileID: 679746918}
   - {fileID: 874508417}
   - {fileID: 356255298}
-  - {fileID: 417725668}

@@ -2,31 +2,58 @@
     "CarAI": {
         "checkpoints": [
             {
-                "steps": 19864,
-                "file_path": "results\\CarAITest58\\CarAI\\CarAI-19864.onnx",
-                "reward": -2.2313431600729623,
-                "creation_time": 1740759758.118146,
+                "steps": 8999802,
+                "file_path": "results\\CarAITest58\\CarAI\\CarAI-8999802.onnx",
+                "reward": 6.767514110688353,
+                "creation_time": 1741024391.7524054,
                 "auxillary_file_paths": [
-                    "results\\CarAITest58\\CarAI\\CarAI-19864.pt"
+                    "results\\CarAITest58\\CarAI\\CarAI-8999802.pt"
                 ]
             },
             {
-                "steps": 26144,
-                "file_path": "results\\CarAITest58\\CarAI\\CarAI-26144.onnx",
-                "reward": -7.735224783420563,
-                "creation_time": 1740999333.36894,
+                "steps": 9499875,
+                "file_path": "results\\CarAITest58\\CarAI\\CarAI-9499875.onnx",
+                "reward": 5.738176001442803,
+                "creation_time": 1741025806.1125498,
                 "auxillary_file_paths": [
-                    "results\\CarAITest58\\CarAI\\CarAI-26144.pt"
+                    "results\\CarAITest58\\CarAI\\CarAI-9499875.pt"
+                ]
+            },
+            {
+                "steps": 9999909,
+                "file_path": "results\\CarAITest58\\CarAI\\CarAI-9999909.onnx",
+                "reward": 5.363490703205268,
+                "creation_time": 1741026945.1767254,
+                "auxillary_file_paths": [
+                    "results\\CarAITest58\\CarAI\\CarAI-9999909.pt"
+                ]
+            },
+            {
+                "steps": 10499843,
+                "file_path": "results\\CarAITest58\\CarAI\\CarAI-10499843.onnx",
+                "reward": 4.180396358172099,
+                "creation_time": 1741028090.480412,
+                "auxillary_file_paths": [
+                    "results\\CarAITest58\\CarAI\\CarAI-10499843.pt"
+                ]
+            },
+            {
+                "steps": 10613192,
+                "file_path": "results\\CarAITest58\\CarAI\\CarAI-10613192.onnx",
+                "reward": 4.630795170863469,
+                "creation_time": 1741028414.263779,
+                "auxillary_file_paths": [
+                    "results\\CarAITest58\\CarAI\\CarAI-10613192.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 26144,
+            "steps": 10613192,
             "file_path": "results\\CarAITest58\\CarAI.onnx",
-            "reward": -7.735224783420563,
-            "creation_time": 1740999333.36894,
+            "reward": 4.630795170863469,
+            "creation_time": 1741028414.263779,
             "auxillary_file_paths": [
-                "results\\CarAITest58\\CarAI\\CarAI-26144.pt"
+                "results\\CarAITest58\\CarAI\\CarAI-10613192.pt"
             ]
         }
     },

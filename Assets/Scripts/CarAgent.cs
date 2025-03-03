@@ -78,6 +78,7 @@ public class CarAgent : Agent
     int targetNumber = 0;
     int episodeTargetCount = 0;
     int countTarget = 0;
+    private int MaxNoNodes = 0;
 
     public TextMeshProUGUI lblTowardsNode;
     public TextMeshProUGUI lblAwayNode;
@@ -164,20 +165,6 @@ public class CarAgent : Agent
         else if (Route[0] == CurrentNode) timeAtCurrentNode += Time.fixedDeltaTime;
         else
         {
-
-            /*     Debug.Log("Moved nodes");
-                 if (Route[0] == CurrentNextNode)
-                 {
-                     AddReward(3f);
-                     rCorrectNode += 3f;
-                     CurrentNextNode = Route[1];
-                 }
-                 else
-                 {
-                     AddReward(-3f);
-                     rIncorrectNode += -3f;
-                     CurrentNextNode = Route[1];
-                 }*/
             LastDistanceToNextNode = 0;
             timeAtCurrentNode = 0;
             CurrentNode = Route[0];
@@ -460,13 +447,15 @@ public class CarAgent : Agent
             // Incorrect
             // If number of steps increase
             // Incorrect
+          
+            float StepReward = 1.0f / MaxNoNodes;
 
             if (Route.Count < maxSteps)
             {
                 //Correct
                 //Done the correct instruction
-                AddReward(0.13f);
-                rTowardsNode += 0.2f;
+                AddReward(StepReward);
+                rTowardsNode += StepReward;
                 maxSteps = Route.Count;
 
 
@@ -477,33 +466,31 @@ public class CarAgent : Agent
                 if (lastInstruction.Item1 == 0 && (Direction == 1 || Direction == 3))
                 {
                     //Incorrect
-                    AddReward(-0.15f);
-                    rAwayNode += -0.15f;
+                    AddReward(-StepReward);
+                    rAwayNode += -StepReward;
                     maxSteps = Route.Count;
                 }
                 else if ((lastInstruction.Item1 == 1 || lastInstruction.Item1 == 3) && (lastInstruction.Item2 > distance))
                 {
                     //Incorrect
-                    AddReward(-0.15f);
-                    rAwayNode += -0.15f;
+                    AddReward(-StepReward);
+                    rAwayNode += -StepReward;
                     maxSteps = Route.Count;
                 }
                 else
                 {
                     //Correct
                     //Done the correct instruction
-                    AddReward(0.13f);
-                    rTowardsNode += 0.2f;
+                    AddReward(StepReward);
+                    rTowardsNode += StepReward;
                     maxSteps = Route.Count;
                 }
-
-
             }
             else
             {
                 //Incorrect
-                AddReward(-0.15f);
-                rAwayNode += -0.15f;
+                AddReward(-StepReward);
+                rAwayNode += -StepReward;
                 maxSteps = Route.Count;
             }
 
@@ -816,14 +803,6 @@ public class CarAgent : Agent
         Node n = grid.GetNodeFromWorldPoint(Target.transform.position);
         targetX = n.GridX;
         targetY = n.GridY;
-        // Target.transform.position = random.transform.position;
-        //transform.position = new Vector3(0, 0.15f, 0);
-        transform.rotation = Quaternion.identity;
-        if (random.getNodeType() == NodeType.EastWest)
-        {
-            transform.rotation = Quaternion.Euler(0, 90, 0);
-        }
-        //transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         rb.velocity = Vector3.zero;
         AtTarget = false;
         lastChecked = 0;
@@ -834,6 +813,12 @@ public class CarAgent : Agent
         LastDistanceToNextNode = 0f;
         maxSteps = 0;
         GetPath();
+        MaxNoNodes = Route.Count;
+
+        //Face towards left path
+
+        transform.rotation = Quaternion.LookRotation(Route[1].transform.position - transform.position);
+
     }
 
     public void InitPositions()
