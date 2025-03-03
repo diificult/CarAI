@@ -4,6 +4,7 @@ using TMPro;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using UnityEditor;
 using UnityEngine;
 
 public class CarAgent : Agent
@@ -68,6 +69,10 @@ public class CarAgent : Agent
     float rTurn = 0f;
     float rTouchingWall = 0f;
     float rCorrectSide = 0f;
+
+
+    [SerializeField] private float rewardCorrectSide = 0.005f;
+    [SerializeField] private float rewardTouchingWall = 0.005f;
 
 
     int targetNumber = 0;
@@ -512,113 +517,59 @@ public class CarAgent : Agent
 
     private void CalculateSideOfRoadReward()
     {
-        //Get the side of the road should be on
+        //updated code:
         NodeType nodeType = Route[0].getNodeType();
-        if (NodeType.NorthSouth == nodeType)
+
+        float rotation = transform.rotation.eulerAngles.y;
+        float deltaX = transform.position.x - Route[0].transform.position.x;
+        float deltaZ = transform.position.z - Route[0].transform.position.z;
+       
+
+        if (nodeType == NodeType.NorthSouth)
         {
-            if (transform.rotation.eulerAngles.y > 90 && transform.rotation.eulerAngles.y < 270)
-            {
-                //Should be facing south
-                if (transform.position.x - Route[0].transform.position.x >= 0)
-                {
-                    //Correct side of the road
-                    AddReward(0.005f);
-                    CorrectSideOfRoad = true;
-                }
-                else
-                {
-                    //Incorrect side of the road
-                    AddReward(-0.005f);
-                    CorrectSideOfRoad = false;
-                }
-            }
-            else
-            {
-                //Should be facing north
-                if (transform.position.x - Route[0].transform.position.x <= 0)
-                {
-                    //Incorrect side of the road
-                    AddReward(0.005f);
-                    CorrectSideOfRoad = true;
-                }
-                else
-                {
-                    //Correct side of the road
-                    AddReward(-0.005f);
-                    CorrectSideOfRoad = false;
-                }
-            }
+            //If rotation is facing south check if on the positive side of the delta.
+            CorrectSideOfRoad = (rotation > 90 && rotation < 270) ? deltaX >= 0 : deltaX < 0;
         }
-        else if (NodeType.EastWest == nodeType)
+        else if (nodeType == NodeType.EastWest)
         {
-            if (transform.rotation.eulerAngles.y > 0 && transform.rotation.eulerAngles.y < 180)
-            {
-                //Should be facing east
-                if (transform.position.z - Route[0].transform.position.z >= 0)
-                {
-                    //Correct side of the road
-                    AddReward(0.005f);
-                    CorrectSideOfRoad = true;
-                }
-                else
-                {
-                    //Incorrect side of the road
-                    AddReward(-0.005f);
-                    CorrectSideOfRoad = false;
-                }
-            }
-            else
-            {
-                //Should be facing west
-                if (transform.position.z - Route[0].transform.position.z <= 0)
-                {
-                    //Incorrect side of the road
-                    AddReward(0.005f);
-                    CorrectSideOfRoad = true;
-                }
-                else
-                {
-                    //Correct side of the road
-                    AddReward(-0.005f);
-                    CorrectSideOfRoad = false;
-                }
-            }
+            //Facing right, should be on upper side
+            CorrectSideOfRoad = (rotation > 0 && rotation < 180) ? deltaZ >= 0 : deltaZ < 0;
         }
         else if (nodeType == NodeType.SouthWestTurn || nodeType == NodeType.EastSouthTurn)
         {
             //Check to see if they are at the top or bottom.
-            if (transform.position.z - Route[0].transform.position.z >= 0)
+            if (deltaZ >= 0)
             {
                 //On top half
 
                 if (nodeType == NodeType.SouthWestTurn)
                 {
-                    if (transform.rotation.eulerAngles.y > 45 && transform.rotation.eulerAngles.y < 180)
+                    if (rotation > 45 && transform.rotation.eulerAngles.y < 180)
                     {
 
                         //Correct side of the road
-                        AddReward(0.005f);
+                        AddReward(rewardCorrectSide);
                         CorrectSideOfRoad = true;
                     }
                     else
                     {
                         //Incorrect side of the road
-                        AddReward(-0.005f);
+                        AddReward(-rewardCorrectSide);
                         CorrectSideOfRoad = false;
                     }
                 }
                 else
                 {
-                    if (transform.rotation.eulerAngles.y > 315 || transform.rotation.eulerAngles.y < 135)
+                    if (rotation > 315 || rotation < 135)
                     {
                         //Correct side of the road
-                        AddReward(0.005f);
+                        AddReward(rewardCorrectSide);
                         CorrectSideOfRoad = true;
                     }
                     else
                     {
                         //Incorrect side of the road
-                        AddReward(-0.005f);
+                        AddReward(-rewardCorrectSide);
                         CorrectSideOfRoad = false;
                     }
                 }
@@ -626,36 +577,36 @@ public class CarAgent : Agent
             else
             {
                 //On BOTTOM half of the road
-                if (transform.position.x - Route[0].transform.position.x <= 0)
+                if (deltaX <= 0)
                 {
                     //On Left side of the road.
                     if (nodeType == NodeType.SouthWestTurn)
                     {
-                        if (transform.rotation.eulerAngles.y > 225 || transform.rotation.eulerAngles.y < 45)
+                        if (rotation > 225 || rotation < 45)
                         {
                             //Correct side of the road
-                            AddReward(0.005f);
+                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Incorrect side of the road
-                            AddReward(-0.005f);
+                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
                     else
                     {
-                        if (transform.rotation.eulerAngles.y > 315 || transform.rotation.eulerAngles.y < 135)
+                        if (rotation > 315 || rotation < 135)
                         {
                             //Correct side of the road
-                            AddReward(0.005f);
+                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //incorrect side of the road
-                            AddReward(-0.005f);
+                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -665,31 +616,31 @@ public class CarAgent : Agent
                     //On Right side of the road.
                     if (nodeType == NodeType.EastSouthTurn)
                     {
-                        if (transform.rotation.eulerAngles.y > 135 && transform.rotation.eulerAngles.y < 315)
+                        if (rotation > 135 && rotation < 315)
                         {
                             //Correct side of the road
-                            AddReward(0.005f);
+                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Incorrect side of the road
-                            AddReward(-0.005f);
+                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
                     else
                     {
-                        if (transform.rotation.eulerAngles.y > 135 && transform.rotation.eulerAngles.y < 315)
+                        if (rotation > 135 && rotation < 315)
                         {
                             //InCorrect side of the road
-                            AddReward(0.005f);
+                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Correct side of the road
-                            AddReward(-0.005f);
+                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -699,38 +650,38 @@ public class CarAgent : Agent
         else if (nodeType == NodeType.NorthEastTurn || nodeType == NodeType.WestNorthTurn)
         {
             //Check to see if they are at the top or bottom.
-            if (transform.position.z - Route[0].transform.position.z <= 0)
+            if (deltaZ <= 0)
             {
                 //On Bottom half
                 if (nodeType == NodeType.WestNorthTurn)
                 {
                     //Need to be facing right
-                    if (transform.rotation.eulerAngles.y > 135 && transform.rotation.eulerAngles.y < 315)
+                    if (rotation > 135 && rotation < 315)
                     {
 
                         //Correct side of the road
-                        AddReward(0.005f);
+                        AddReward(rewardCorrectSide);
                         CorrectSideOfRoad = true;
                     }
                     else
                     {
                         //Incorrect side of the road
-                        AddReward(-0.005f);
+                        AddReward(-rewardCorrectSide);
                         CorrectSideOfRoad = false;
                     }
                 }
                 else
                 {
-                    if (transform.rotation.eulerAngles.y < 45 || transform.rotation.eulerAngles.y > 225)
+                    if (rotation < 45 || rotation > 225)
                     {
                         //Correct side of the road
-                        AddReward(0.005f);
+                        AddReward(rewardCorrectSide);
                         CorrectSideOfRoad = true;
                     }
                     else
                     {
                         //Incorrect side of the road
-                        AddReward(-0.005f);
+                        AddReward(-rewardCorrectSide);
                         CorrectSideOfRoad = false;
                     }
                 }
@@ -738,36 +689,36 @@ public class CarAgent : Agent
             else
             {
                 //On top half of the road
-                if (transform.position.x - Route[0].transform.position.x <= 0)
+                if (deltaX <= 0)
                 {
                     //On Left side of the road.
                     if (nodeType == NodeType.NorthEastTurn)
                     {
-                        if (transform.rotation.eulerAngles.y < 45 || transform.rotation.eulerAngles.y > 225)
+                        if (rotation < 45 || rotation > 225)
                         {
                             //Correct side of the road
-                            AddReward(0.005f);
+                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Incorrect side of the road
-                            AddReward(-0.005f);
+                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
                     else
                     {
-                        if (transform.rotation.eulerAngles.y < 135 || transform.rotation.eulerAngles.y > 315)
+                        if (rotation < 135 || rotation > 315)
                         {
                             //InCorrect side of the road
-                            AddReward(0.005f);
+                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Correct side of the road
-                            AddReward(-0.005f);
+                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -777,31 +728,31 @@ public class CarAgent : Agent
                     //On Right side of the road.
                     if (nodeType == NodeType.WestNorthTurn)
                     {
-                        if (transform.rotation.eulerAngles.y > 135 && transform.rotation.eulerAngles.y < 315)
+                        if (rotation > 135 && rotation < 315)
                         {
                             //Correct side of the road
-                            AddReward(0.005f);
+                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Incorrect side of the road
-                            AddReward(-0.005f);
+                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
                     else
                     {
-                        if (transform.rotation.eulerAngles.y > 45 && transform.rotation.eulerAngles.y < 225)
+                        if (rotation > 45 && rotation < 225)
                         {
                             //InCorrect side of the road
-                            AddReward(0.005f);
+                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Correct side of the road
-                            AddReward(-0.005f);
+                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -810,16 +761,16 @@ public class CarAgent : Agent
         }
         else if (nodeType == NodeType.Junction)
         {
-            AddReward(0.005f);
+            AddReward(rewardCorrectSide);
             CorrectSideOfRoad = true;
         }
 
         if (CorrectSideOfRoad)
         {
-            rCorrectSide += 0.005f;
+            rCorrectSide += rewardCorrectSide;
         } else
         {
-            rCorrectSide += -0.005f;
+            rCorrectSide += -rewardCorrectSide;
         }
     }
 
@@ -868,6 +819,10 @@ public class CarAgent : Agent
         // Target.transform.position = random.transform.position;
         //transform.position = new Vector3(0, 0.15f, 0);
         transform.rotation = Quaternion.identity;
+        if (random.getNodeType() == NodeType.EastWest)
+        {
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
         //transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         rb.velocity = Vector3.zero;
         AtTarget = false;
