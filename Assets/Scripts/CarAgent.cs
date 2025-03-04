@@ -340,7 +340,8 @@ public class CarAgent : Agent
         GetComponent<CarControl>().UpdateValues(continuousActions[0], continuousActions[1]);
         
         //Calculate rewards
-
+        if (maxSteps == 0)
+            maxSteps = Route.Count;
         //NEXT TODO, REWARDS CALCULATION CLASS 
         CalculateIfAtTarget();
         CalculateSideOfRoadReward();
@@ -355,8 +356,7 @@ public class CarAgent : Agent
             EndEpisode();
         }
         */
-        if (maxSteps == 0)
-            maxSteps = Route.Count;
+        
         if (touchingWall)
         {
             AddReward(-rewardTouchingWall * rewardNegativeMutliplier);
@@ -674,14 +674,14 @@ public class CarAgent : Agent
                 {
                     //Incorrect
                     AddReward(-StepReward * rewardNegativeMutliplier);
-                    rAwayNode += -StepReward;
+                    rAwayNode += -StepReward * rewardNegativeMutliplier;
                     maxSteps = Route.Count;
                 }
                 else if ((lastInstruction.Item1 == 1 || lastInstruction.Item1 == 3) && (lastInstruction.Item2 > distance))
                 {
                     //Incorrect
                     AddReward(-StepReward * rewardNegativeMutliplier);
-                    rAwayNode += -StepReward;
+                    rAwayNode += -StepReward * rewardNegativeMutliplier;
                     maxSteps = Route.Count;
                 }
                 else
@@ -697,7 +697,7 @@ public class CarAgent : Agent
             {
                 //Incorrect
                 AddReward(-StepReward * rewardNegativeMutliplier);
-                rAwayNode += -StepReward;
+                rAwayNode += -StepReward * rewardNegativeMutliplier;
                 maxSteps = Route.Count;
             }
 
