@@ -21222,35 +21222,32 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
-  yPos: {fileID: 703354454}
-  Reward: {fileID: 949333387}
-  lblDirection: {fileID: 790661375}
-  lblDistance: {fileID: 996071243}
   Target: {fileID: 1670682701}
   Targets:
   - {fileID: 2001771015}
   - {fileID: 790357928}
   TargetsObj: {fileID: 878927252}
-  targetX: 0
-  targetY: 0
   grid: {fileID: 210128777}
   Route: []
   pathMat: {fileID: 2100000, guid: b3d446459b4e2014a918f395670d50a5, type: 2}
   Road: {fileID: 2100000, guid: 912789f38ed43e04b8305bbb2bdcddc9, type: 2}
-  CorrectSideOfRoad: 0
-  AtTarget: 0
   Direction: 0
   distance: 0
-  vxMax: 0
-  vyMax: 0
+  targetX: 0
+  targetY: 0
+  CorrectSideOfRoad: 0
+  touchingWall: 0
   FallenOff: 0
   CurrentNode: {fileID: 0}
   CurrentNextNode: {fileID: 0}
   timeAtCurrentNode: 0
   LastDistanceToNextNode: 0
+  TrainingWheels: 1
   decayFactor: 0.09
-  rewardCorrectSide: 0.002
-  rewardTouchingWall: 0.002
+  rewardCorrectSide: 0.001
+  rewardTouchingWall: 0.001
+  rewardGetToEnd: 1
+  rewardNegativeMutliplier: 2.5
   lblTowardsNode: {fileID: 1408254245}
   lblAwayNode: {fileID: 1993508708}
   lblFalling: {fileID: 924500492}
@@ -21262,7 +21259,10 @@ MonoBehaviour:
   lblTouchingWall: {fileID: 1101593991}
   lblCorrectSideReward: {fileID: 22033478}
   lblCorrectSide: {fileID: 984177437}
-  TrainingWheels: 1
+  yPos: {fileID: 703354454}
+  Reward: {fileID: 949333387}
+  lblDirection: {fileID: 790661375}
+  lblDistance: {fileID: 996071243}
 --- !u!114 &1012521584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21276,7 +21276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 23
+    VectorObservationSize: 21
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
@@ -30721,35 +30721,32 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
-  yPos: {fileID: 703354454}
-  Reward: {fileID: 949333387}
-  lblDirection: {fileID: 790661375}
-  lblDistance: {fileID: 996071243}
   Target: {fileID: 237827155}
   Targets:
   - {fileID: 2001771015}
   - {fileID: 790357928}
   TargetsObj: {fileID: 0}
-  targetX: 0
-  targetY: 0
   grid: {fileID: 210128777}
   Route: []
   pathMat: {fileID: 2100000, guid: b3d446459b4e2014a918f395670d50a5, type: 2}
   Road: {fileID: 2100000, guid: 912789f38ed43e04b8305bbb2bdcddc9, type: 2}
-  CorrectSideOfRoad: 0
-  AtTarget: 0
   Direction: 0
   distance: 0
-  vxMax: 0
-  vyMax: 0
+  targetX: 0
+  targetY: 0
+  CorrectSideOfRoad: 0
+  touchingWall: 0
   FallenOff: 0
   CurrentNode: {fileID: 0}
   CurrentNextNode: {fileID: 0}
   timeAtCurrentNode: 0
   LastDistanceToNextNode: 0
+  TrainingWheels: 1
   decayFactor: 0.1
   rewardCorrectSide: 0.005
   rewardTouchingWall: 0.005
+  rewardGetToEnd: 1
+  rewardNegativeMutliplier: 1
   lblTowardsNode: {fileID: 1408254245}
   lblAwayNode: {fileID: 1993508708}
   lblFalling: {fileID: 924500492}
@@ -30761,7 +30758,10 @@ MonoBehaviour:
   lblTouchingWall: {fileID: 0}
   lblCorrectSideReward: {fileID: 0}
   lblCorrectSide: {fileID: 0}
-  TrainingWheels: 1
+  yPos: {fileID: 703354454}
+  Reward: {fileID: 949333387}
+  lblDirection: {fileID: 790661375}
+  lblDistance: {fileID: 996071243}
 --- !u!1 &1467861762
 GameObject:
   m_ObjectHideFlags: 0
@@ -36781,33 +36781,30 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
-  yPos: {fileID: 703354454}
-  Reward: {fileID: 949333387}
-  lblDirection: {fileID: 790661375}
-  lblDistance: {fileID: 996071243}
   Target: {fileID: 1670682701}
   Targets: []
   TargetsObj: {fileID: 0}
-  targetX: 0
-  targetY: 0
   grid: {fileID: 210128777}
   Route: []
   pathMat: {fileID: 2100000, guid: b3d446459b4e2014a918f395670d50a5, type: 2}
   Road: {fileID: 2100000, guid: 912789f38ed43e04b8305bbb2bdcddc9, type: 2}
-  CorrectSideOfRoad: 0
-  AtTarget: 0
   Direction: 0
   distance: 0
-  vxMax: 0
-  vyMax: 0
+  targetX: 0
+  targetY: 0
+  CorrectSideOfRoad: 0
+  touchingWall: 0
   FallenOff: 0
   CurrentNode: {fileID: 0}
   CurrentNextNode: {fileID: 0}
   timeAtCurrentNode: 0
   LastDistanceToNextNode: 0
+  TrainingWheels: 1
   decayFactor: 0.1
   rewardCorrectSide: 0.005
   rewardTouchingWall: 0.005
+  rewardGetToEnd: 1
+  rewardNegativeMutliplier: 1
   lblTowardsNode: {fileID: 1408254245}
   lblAwayNode: {fileID: 1993508708}
   lblFalling: {fileID: 924500492}
@@ -36819,7 +36816,10 @@ MonoBehaviour:
   lblTouchingWall: {fileID: 0}
   lblCorrectSideReward: {fileID: 0}
   lblCorrectSide: {fileID: 0}
-  TrainingWheels: 1
+  yPos: {fileID: 703354454}
+  Reward: {fileID: 949333387}
+  lblDirection: {fileID: 790661375}
+  lblDistance: {fileID: 996071243}
 --- !u!114 &1735006518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42585,35 +42585,32 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
-  yPos: {fileID: 703354454}
-  Reward: {fileID: 949333387}
-  lblDirection: {fileID: 790661375}
-  lblDistance: {fileID: 996071243}
   Target: {fileID: 1133665986}
   Targets:
   - {fileID: 2001771015}
   - {fileID: 790357928}
   TargetsObj: {fileID: 0}
-  targetX: 0
-  targetY: 0
   grid: {fileID: 210128777}
   Route: []
   pathMat: {fileID: 2100000, guid: b3d446459b4e2014a918f395670d50a5, type: 2}
   Road: {fileID: 2100000, guid: 912789f38ed43e04b8305bbb2bdcddc9, type: 2}
-  CorrectSideOfRoad: 0
-  AtTarget: 0
   Direction: 0
   distance: 0
-  vxMax: 0
-  vyMax: 0
+  targetX: 0
+  targetY: 0
+  CorrectSideOfRoad: 0
+  touchingWall: 0
   FallenOff: 0
   CurrentNode: {fileID: 0}
   CurrentNextNode: {fileID: 0}
   timeAtCurrentNode: 0
   LastDistanceToNextNode: 0
+  TrainingWheels: 1
   decayFactor: 0.1
   rewardCorrectSide: 0.005
   rewardTouchingWall: 0.005
+  rewardGetToEnd: 1
+  rewardNegativeMutliplier: 1
   lblTowardsNode: {fileID: 1408254245}
   lblAwayNode: {fileID: 1993508708}
   lblFalling: {fileID: 924500492}
@@ -42625,7 +42622,10 @@ MonoBehaviour:
   lblTouchingWall: {fileID: 0}
   lblCorrectSideReward: {fileID: 0}
   lblCorrectSide: {fileID: 0}
-  TrainingWheels: 1
+  yPos: {fileID: 703354454}
+  Reward: {fileID: 949333387}
+  lblDirection: {fileID: 790661375}
+  lblDistance: {fileID: 996071243}
 --- !u!1 &2056762160
 GameObject:
   m_ObjectHideFlags: 0

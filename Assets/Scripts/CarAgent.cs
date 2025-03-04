@@ -10,53 +10,46 @@ using UnityEngine;
 public class CarAgent : Agent
 {
 
-    public TextMeshProUGUI yPos;
-    public TextMeshProUGUI Reward;
-    public TextMeshProUGUI lblDirection;
-    public TextMeshProUGUI lblDistance;
 
 
+    [Header("Objects")]
     public GameObject Target;
     public GameObject[] Targets;
     public GameObject TargetsObj;
-    [SerializeField] private int targetX, targetY;
     public Grid grid;
 
     public List<Node> Route;
 
+    [Header("Road Materials")]
     public Material pathMat;
     public Material Road;
 
-    public bool CorrectSideOfRoad = true;
-
-    public bool AtTarget;
+    private bool AtTarget;
 
     //public Node targetNode;
 
 
     //0 = forward, 1 = right, 2 = reverse, 3 = left
-    public int Direction;
-    public int distance;
-
 
     int lastChecked = 9;
 
     int maxSteps = 0;
 
-    public float vxMax = 0f;
-    public float vyMax = 0f;
+    [Header("AI State")]
 
-    public bool FallenOff = false;
-
-    bool touchingWall = false;
-
-    public Node CurrentNode;
-    public Node CurrentNextNode;
-    public float timeAtCurrentNode = 0;
+    [SerializeField] private int Direction;
+    [SerializeField] private int distance;
+    [SerializeField] private int targetX, targetY;
+    [SerializeField] private bool CorrectSideOfRoad = true;
+    [SerializeField] private bool touchingWall = false;
+    [SerializeField] private bool FallenOff = false;
+    [SerializeField] private Node CurrentNode;
+    [SerializeField] private Node CurrentNextNode;
+    [SerializeField] private float timeAtCurrentNode = 0;
     [SerializeField] private float LastDistanceToNextNode;
-    [SerializeField] private float decayFactor = 0.1f;
 
-    private Vector3 ClosestPointOnNextNode;
+    [Header("Training Params")]
+    [SerializeField] bool TrainingWheels = true;
 
     float rTowardsNode = 0f;
     float rAwayNode = 0f;
@@ -70,9 +63,12 @@ public class CarAgent : Agent
     float rTouchingWall = 0f;
     float rCorrectSide = 0f;
 
-
+    [Header("Reward Values")]
+    [SerializeField] private float decayFactor = 0.1f;
     [SerializeField] private float rewardCorrectSide = 0.005f;
-    [SerializeField] private float rewardTouchingWall = 0.005f;
+    [SerializeField] private float rewardTouchingWall = -0.005f;
+    [SerializeField] private float rewardGetToEnd = 1f;
+    [SerializeField] private float rewardNegativeMutliplier = 1f;
 
 
     int targetNumber = 0;
@@ -80,6 +76,7 @@ public class CarAgent : Agent
     int countTarget = 0;
     private int MaxNoNodes = 0;
 
+    [Header("UI Labels")]
     public TextMeshProUGUI lblTowardsNode;
     public TextMeshProUGUI lblAwayNode;
     public TextMeshProUGUI lblFalling;
@@ -91,13 +88,16 @@ public class CarAgent : Agent
     public TextMeshProUGUI lblTouchingWall;
     public TextMeshProUGUI lblCorrectSideReward;
     [SerializeField] private TextMeshProUGUI lblCorrectSide;
-
+    public TextMeshProUGUI yPos;
+    public TextMeshProUGUI Reward;
+    public TextMeshProUGUI lblDirection;
+    public TextMeshProUGUI lblDistance;
 
     private Rigidbody rb;
 
     private Tuple<int, int> lastInstruction;
 
-    [SerializeField] bool TrainingWheels = true;
+
 
     public void Start()
     {
@@ -151,8 +151,7 @@ public class CarAgent : Agent
         lblAwayNode.text = "Away from goal " + rAwayNode;
         lblFalling.text = "Falling Off " + rFalling;
         lblAtTarget.text = "Turn " + rTurn;
-        lblCorrectNode.text = "Training Wheels " + rTrainingWheels;
-        lblIncorrectNode.text = " " + rIncorrectNode;
+        lblTurnReward.text = "Current Angle Reward: " + rTurn;
         lblTimeAtNode.text = "Time At Node " + rTimeAtNode;
         lblTouchingWall.text = "Touching wall " + rTouchingWall;
         lblCorrectSideReward.text = "Correct Side " + rCorrectSide;
@@ -173,7 +172,7 @@ public class CarAgent : Agent
     }
 
 
-
+    //Calculates the path and displays in yellow on the road.
     public void GetPath()
     {
         foreach (Node node in Route)
@@ -189,6 +188,7 @@ public class CarAgent : Agent
         // targetNode = GameObject.Find("AStar").GetComponent<Grid>().GetNodeFromWorldPoint(Target.transform.position);
     }
 
+    //Calculates distance and direction of the next turn
     public void findNextTurn()
     {
 
@@ -251,10 +251,7 @@ public class CarAgent : Agent
             else Direction = 3;
             distance = 0;
         }
-
-
     }
-
 
     public override void Initialize()
     {
@@ -317,9 +314,6 @@ public class CarAgent : Agent
         sensor.AddObservation(Mathf.Sin(transform.rotation.eulerAngles.y * Mathf.Deg2Rad));
         sensor.AddObservation(Mathf.Cos(transform.rotation.eulerAngles.y * Mathf.Deg2Rad));
 
-        sensor.AddObservation(touchingWall);
-        sensor.AddObservation(CorrectSideOfRoad);
-
         //distance for next instruction
         sensor.AddObservation(distance / 15.0f);
         //Direction
@@ -344,25 +338,15 @@ public class CarAgent : Agent
         //  Debug.Log("Got an action");
         var continuousActions = actions.ContinuousActions;
         GetComponent<CarControl>().UpdateValues(continuousActions[0], continuousActions[1]);
-        CalculateSideOfRoadReward();
+        
         //Calculate rewards
 
-        //TODO MOVE CALCULATIONS TO SEPERATE FUNCTIONS
-
-        if (AtTarget)
-        {
-            Debug.Log("Got to end");
-            countTarget++;
-
-            if (countTarget == 4)
-            {
-                targetNumber = targetNumber >= 19 ? 0 : targetNumber + 1;
-                countTarget = 0;
-            }
-            AddReward(1f);
-            rAtTarget += 1f;
-            EndEpisode();
-        }
+        //NEXT TODO, REWARDS CALCULATION CLASS 
+        CalculateIfAtTarget();
+        CalculateSideOfRoadReward();
+        CalculateIfFollowedCorrectInsturction();
+      
+        /*
         else if (this.transform.localPosition.y < 0.03)
         {
             Debug.Log("Fell off");
@@ -370,141 +354,58 @@ public class CarAgent : Agent
             rFalling += -16.0f / 35.0f;
             EndEpisode();
         }
+        */
         if (maxSteps == 0)
-        {
             maxSteps = Route.Count;
-        }
-
         if (touchingWall)
         {
-            AddReward(-0.002f);
-            rTouchingWall += -0.002f;
+            AddReward(-rewardTouchingWall * rewardNegativeMutliplier);
+            rTouchingWall += -rewardTouchingWall * rewardNegativeMutliplier;
         }
+        //Todo, think about if I want to keep training wheels
         if (TrainingWheels)
         {
-
+            Vector3 PositionOfClosestPoint = CalculateClosestPointOnNextNode();
+            float distanceToNextNode = Mathf.Abs(Vector3.Magnitude(PositionOfClosestPoint - transform.position));
             if (Route.Count > 1)
             {
-                Vector3 directionToNode = (Route[1].transform.position - transform.position).normalized;
+                Vector3 directionToNode = (PositionOfClosestPoint - transform.position).normalized;
                 float angleToNode = Vector3.SignedAngle(transform.forward, directionToNode, Vector3.up) / 180f;
                 float reward = 1.0f - Mathf.Abs(angleToNode) / 180.0f; // Closer to 0° = more reward
-                AddReward((reward - 0.994f) * 0.01f);
-                lblTurnReward.text = "Current Angle Reward: " + ((reward - 0.994f) * 0.01f);
-                rTurn += (reward - 0.994f) * 0.01f;
+                AddReward((reward - 0.994f) * 0.005f);
+                rTurn += (reward - 0.994f) * 0.005f;
             }
-            float distanceToNextNode = 0f;
-
-            if (transform.position.x > Route[1].transform.position.x + 10)
-            {
-                //West
-                distanceToNextNode = transform.position.x - (Route[1].transform.position.x + 10);
-                ClosestPointOnNextNode = new Vector3(Route[1].transform.position.x + 10, 0, transform.position.z);
-
-            }
-            else if (transform.position.x < Route[1].transform.position.x - 10)
-            {
-                //To the East
-                distanceToNextNode = (Route[1].transform.position.x - 10) - transform.position.x;
-                ClosestPointOnNextNode = new Vector3(Route[1].transform.position.x - 10, 0, transform.position.z);
-
-            }
-            else if (transform.position.z > Route[1].transform.position.z + 10)
-            {
-                //Player is North
-                distanceToNextNode = transform.position.z - (Route[1].transform.position.z + 10);
-                ClosestPointOnNextNode = new Vector3(transform.position.x, 0, (Route[1].transform.position.z + 10));
-            }
-            else if (transform.position.z < Route[1].transform.position.z - 10)
-            {
-                //Player is South
-
-                distanceToNextNode = (Route[1].transform.position.z - 10) - transform.position.z;
-                ClosestPointOnNextNode = new Vector3(transform.position.x, 0, (Route[1].transform.position.z - 10));
-            }
-
             if (LastDistanceToNextNode != 0)
             {
                 float progressReward = ((LastDistanceToNextNode - distanceToNextNode) * Mathf.Exp(-timeAtCurrentNode * decayFactor)) / 80f;
                 AddReward(progressReward);
                 rTrainingWheels += progressReward;
-
-
             }
             // Update last distance
             LastDistanceToNextNode = distanceToNextNode;
         }
-        if (lastInstruction == null) lastInstruction = new Tuple<int, int>(Direction, distance);
-        else if (lastInstruction.Item1 != Direction || lastInstruction.Item2 != distance)
+      
+    }
+
+    private void CalculateIfAtTarget()
+    {
+        if (AtTarget)
         {
-            //     Debug.Log($"New instruction: Direction {Direction}, distance {distance}, maxStep {maxSteps}, Route Count {Route.Count}");
-
-
-            //If the direction is straight or is left or right and decreases number of steps
-            // Correct
-            //If the direction is left or right and becomes left right or straight with same number of steps but increase number of direction
-            // Correct
-            //If direction is left or right or straight and changes to left right and straight and same number of steps but decreased distance 
-            // Incorrect
-            // If number of steps increase
-            // Incorrect
-          
-            float StepReward = 1.0f / MaxNoNodes;
-
-            if (Route.Count < maxSteps)
+            Debug.Log("Got to end");
+            countTarget++;
+            if (countTarget == 4)
             {
-                //Correct
-                //Done the correct instruction
-                AddReward(StepReward);
-                rTowardsNode += StepReward;
-                maxSteps = Route.Count;
-
-
+                targetNumber = targetNumber >= 19 ? 0 : targetNumber + 1;
+                countTarget = 0;
             }
-            else if (Route.Count == maxSteps)
-            {
-
-                if (lastInstruction.Item1 == 0 && (Direction == 1 || Direction == 3))
-                {
-                    //Incorrect
-                    AddReward(-StepReward);
-                    rAwayNode += -StepReward;
-                    maxSteps = Route.Count;
-                }
-                else if ((lastInstruction.Item1 == 1 || lastInstruction.Item1 == 3) && (lastInstruction.Item2 > distance))
-                {
-                    //Incorrect
-                    AddReward(-StepReward);
-                    rAwayNode += -StepReward;
-                    maxSteps = Route.Count;
-                }
-                else
-                {
-                    //Correct
-                    //Done the correct instruction
-                    AddReward(StepReward);
-                    rTowardsNode += StepReward;
-                    maxSteps = Route.Count;
-                }
-            }
-            else
-            {
-                //Incorrect
-                AddReward(-StepReward);
-                rAwayNode += -StepReward;
-                maxSteps = Route.Count;
-            }
-
-            lastInstruction = new Tuple<int, int>(Direction, distance);
-
+            AddReward(rewardGetToEnd);
+            rAtTarget += 1f;
+            EndEpisode();
         }
-
-        float totalReward = rTrainingWheels + rTowardsNode + rAwayNode + rTimeAtNode + rAtTarget + rFalling;
-        //     Debug.Log($"Total Reward: {totalReward}, Step: {StepCount}");
     }
 
     private void CalculateSideOfRoadReward()
     {
-        //updated code:
         NodeType nodeType = Route[0].getNodeType();
 
         float rotation = transform.rotation.eulerAngles.y;
@@ -522,6 +423,8 @@ public class CarAgent : Agent
             //Facing right, should be on upper side
             CorrectSideOfRoad = (rotation > 0 && rotation < 180) ? deltaZ >= 0 : deltaZ < 0;
         }
+
+        //TODO SIMPLIFY THIS CODE TO MAKE IT MUCHHH SHORTER (sorry if you have to read this)
         else if (nodeType == NodeType.SouthWestTurn || nodeType == NodeType.EastSouthTurn)
         {
             //Check to see if they are at the top or bottom.
@@ -531,17 +434,15 @@ public class CarAgent : Agent
 
                 if (nodeType == NodeType.SouthWestTurn)
                 {
-                    if (rotation > 45 && transform.rotation.eulerAngles.y < 180)
+                    if (rotation > 45 && transform.rotation.eulerAngles.y < 225)
                     {
 
                         //Correct side of the road
-                        AddReward(rewardCorrectSide);
                         CorrectSideOfRoad = true;
                     }
                     else
                     {
                         //Incorrect side of the road
-                        AddReward(-rewardCorrectSide);
                         CorrectSideOfRoad = false;
                     }
                 }
@@ -550,13 +451,11 @@ public class CarAgent : Agent
                     if (rotation > 315 || rotation < 135)
                     {
                         //Correct side of the road
-                        AddReward(rewardCorrectSide);
                         CorrectSideOfRoad = true;
                     }
                     else
                     {
                         //Incorrect side of the road
-                        AddReward(-rewardCorrectSide);
                         CorrectSideOfRoad = false;
                     }
                 }
@@ -572,13 +471,11 @@ public class CarAgent : Agent
                         if (rotation > 225 || rotation < 45)
                         {
                             //Correct side of the road
-                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Incorrect side of the road
-                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -587,13 +484,11 @@ public class CarAgent : Agent
                         if (rotation > 315 || rotation < 135)
                         {
                             //Correct side of the road
-                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //incorrect side of the road
-                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -606,13 +501,11 @@ public class CarAgent : Agent
                         if (rotation > 135 && rotation < 315)
                         {
                             //Correct side of the road
-                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Incorrect side of the road
-                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -621,13 +514,11 @@ public class CarAgent : Agent
                         if (rotation > 135 && rotation < 315)
                         {
                             //InCorrect side of the road
-                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Correct side of the road
-                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -647,13 +538,11 @@ public class CarAgent : Agent
                     {
 
                         //Correct side of the road
-                        AddReward(rewardCorrectSide);
                         CorrectSideOfRoad = true;
                     }
                     else
                     {
                         //Incorrect side of the road
-                        AddReward(-rewardCorrectSide);
                         CorrectSideOfRoad = false;
                     }
                 }
@@ -662,13 +551,11 @@ public class CarAgent : Agent
                     if (rotation < 45 || rotation > 225)
                     {
                         //Correct side of the road
-                        AddReward(rewardCorrectSide);
                         CorrectSideOfRoad = true;
                     }
                     else
                     {
                         //Incorrect side of the road
-                        AddReward(-rewardCorrectSide);
                         CorrectSideOfRoad = false;
                     }
                 }
@@ -684,13 +571,11 @@ public class CarAgent : Agent
                         if (rotation < 45 || rotation > 225)
                         {
                             //Correct side of the road
-                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Incorrect side of the road
-                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -699,13 +584,11 @@ public class CarAgent : Agent
                         if (rotation < 135 || rotation > 315)
                         {
                             //InCorrect side of the road
-                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Correct side of the road
-                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -718,13 +601,11 @@ public class CarAgent : Agent
                         if (rotation > 135 && rotation < 315)
                         {
                             //Correct side of the road
-                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Incorrect side of the road
-                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -733,13 +614,11 @@ public class CarAgent : Agent
                         if (rotation > 45 && rotation < 225)
                         {
                             //InCorrect side of the road
-                            AddReward(rewardCorrectSide);
                             CorrectSideOfRoad = true;
                         }
                         else
                         {
                             //Correct side of the road
-                            AddReward(-rewardCorrectSide);
                             CorrectSideOfRoad = false;
                         }
                     }
@@ -748,16 +627,82 @@ public class CarAgent : Agent
         }
         else if (nodeType == NodeType.Junction)
         {
-            AddReward(rewardCorrectSide);
             CorrectSideOfRoad = true;
         }
 
         if (CorrectSideOfRoad)
         {
+            AddReward(rewardCorrectSide);
             rCorrectSide += rewardCorrectSide;
         } else
         {
-            rCorrectSide += -rewardCorrectSide;
+            AddReward(-rewardCorrectSide * rewardNegativeMutliplier);
+            rCorrectSide += -rewardCorrectSide * rewardNegativeMutliplier;
+        }
+    }
+
+    private void CalculateIfFollowedCorrectInsturction()
+    {
+        if (lastInstruction == null) lastInstruction = new Tuple<int, int>(Direction, distance);
+        else if (lastInstruction.Item1 != Direction || lastInstruction.Item2 != distance)
+        {
+            //If the direction is straight or is left or right and decreases number of steps
+            // Correct
+            //If the direction is left or right and becomes left right or straight with same number of steps but increase number of direction
+            // Correct
+            //If direction is left or right or straight and changes to left right and straight and same number of steps but decreased distance 
+            // Incorrect
+            // If number of steps increase
+            // Incorrect
+
+            float StepReward = 1.0f / MaxNoNodes;
+
+            if (Route.Count < maxSteps)
+            {
+                //Correct
+                //Done the correct instruction
+                AddReward(StepReward);
+                rTowardsNode += StepReward;
+                maxSteps = Route.Count;
+
+
+            }
+            else if (Route.Count == maxSteps)
+            {
+
+                if (lastInstruction.Item1 == 0 && (Direction == 1 || Direction == 3))
+                {
+                    //Incorrect
+                    AddReward(-StepReward * rewardNegativeMutliplier);
+                    rAwayNode += -StepReward;
+                    maxSteps = Route.Count;
+                }
+                else if ((lastInstruction.Item1 == 1 || lastInstruction.Item1 == 3) && (lastInstruction.Item2 > distance))
+                {
+                    //Incorrect
+                    AddReward(-StepReward * rewardNegativeMutliplier);
+                    rAwayNode += -StepReward;
+                    maxSteps = Route.Count;
+                }
+                else
+                {
+                    //Correct
+                    //Done the correct instruction
+                    AddReward(StepReward);
+                    rTowardsNode += StepReward;
+                    maxSteps = Route.Count;
+                }
+            }
+            else
+            {
+                //Incorrect
+                AddReward(-StepReward * rewardNegativeMutliplier);
+                rAwayNode += -StepReward;
+                maxSteps = Route.Count;
+            }
+
+            lastInstruction = new Tuple<int, int>(Direction, distance);
+
         }
     }
 
@@ -775,6 +720,36 @@ public class CarAgent : Agent
         }
     }
 
+
+    public Vector3 CalculateClosestPointOnNextNode()
+    {
+
+        Vector3 ClosestPointOnNextNode = new Vector3();
+        if (transform.position.x > Route[1].transform.position.x + 10)
+        {
+            //West
+            ClosestPointOnNextNode = new Vector3(Route[1].transform.position.x + 10, 0, transform.position.z);
+
+        }
+        else if (transform.position.x < Route[1].transform.position.x - 10)
+        {
+            //To the East
+            ClosestPointOnNextNode = new Vector3(Route[1].transform.position.x - 10, 0, transform.position.z);
+
+        }
+        else if (transform.position.z > Route[1].transform.position.z + 10)
+        {
+            //Player is North
+            ClosestPointOnNextNode = new Vector3(transform.position.x, 0, (Route[1].transform.position.z + 10));
+        }
+        else if (transform.position.z < Route[1].transform.position.z - 10)
+        {
+            //Player is South
+            ClosestPointOnNextNode = new Vector3(transform.position.x, 0, (Route[1].transform.position.z - 10));
+        }
+
+        return ClosestPointOnNextNode;
+    }
 
     public override void OnEpisodeBegin()
     {
@@ -796,9 +771,9 @@ public class CarAgent : Agent
         //Choose a random target
         //TODO put into a managers class;
         Node random = grid.GetRandomNode();
-        //GameObject nextTarget = Targets[Random.Range(0, Targets.Length)];
-        //    Transform nextTarget = TargetsObj.transform.GetChild(targetNumber);
-        // Target.transform.position = nextTarget.position;
+        //Code for predfined targets.
+        //Transform nextTarget = TargetsObj.transform.GetChild(targetNumber);
+        //Target.transform.position = nextTarget.position;
         InitPositions();
         Node n = grid.GetNodeFromWorldPoint(Target.transform.position);
         targetX = n.GridX;
