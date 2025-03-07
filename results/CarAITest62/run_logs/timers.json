@@ -1,0 +1,47 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1741353309",
+        "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\OwenWork\\.pyenv\\pyenv-win\\versions\\3.10.11\\Scripts\\mlagents-learn config/CarAI.yaml --run-id=CarAITest62",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.2.2+cu121",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1741353316"
+    },
+    "total": 7.689744499999506,
+    "count": 1,
+    "self": 0.005729700000301818,
+    "children": {
+        "run_training.setup": {
+            "total": 0.05470729999979085,
+            "count": 1,
+            "self": 0.05470729999979085
+        },
+        "TrainerController.start_learning": {
+            "total": 7.629307499999413,
+            "count": 1,
+            "self": 0.0003863000001729233,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 7.628896700000041,
+                    "count": 1,
+                    "self": 7.628896700000041
+                },
+                "trainer_threads": {
+                    "total": 6.000000212225132e-07,
+                    "count": 1,
+                    "self": 6.000000212225132e-07
+                },
+                "TrainerController._save_models": {
+                    "total": 2.3899999177956488e-05,
+                    "count": 1,
+                    "self": 2.3899999177956488e-05
+                }
+            }
+        }
+    }
+}

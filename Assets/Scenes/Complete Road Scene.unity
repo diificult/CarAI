@@ -16686,7 +16686,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -108.8
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalPosition.y
@@ -16694,7 +16694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 54.2
+      value: -2.4
       objectReference: {fileID: 0}
     - target: {fileID: 6301142851818038027, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
       propertyPath: m_LocalRotation.w
@@ -21221,7 +21221,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 5000
+  MaxStep: 7500
   Target: {fileID: 1670682701}
   Targets:
   - {fileID: 2001771015}
@@ -21242,12 +21242,12 @@ MonoBehaviour:
   CurrentNextNode: {fileID: 0}
   timeAtCurrentNode: 0
   LastDistanceToNextNode: 0
-  TrainingWheels: 1
+  TrainingWheels: 0
   decayFactor: 0.09
   rewardCorrectSide: 0.001
   rewardTouchingWall: 0.001
   rewardGetToEnd: 1
-  rewardNegativeMutliplier: 2.5
+  rewardNegativeMutliplier: 6
   lblTowardsNode: {fileID: 1408254245}
   lblAwayNode: {fileID: 1993508708}
   lblFalling: {fileID: 924500492}

@@ -4,7 +4,6 @@ using TMPro;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
-using UnityEditor;
 using UnityEngine;
 
 public class CarAgent : Agent
@@ -338,7 +337,7 @@ public class CarAgent : Agent
         //  Debug.Log("Got an action");
         var continuousActions = actions.ContinuousActions;
         GetComponent<CarControl>().UpdateValues(continuousActions[0], continuousActions[1]);
-        
+
         //Calculate rewards
         if (maxSteps == 0)
             maxSteps = Route.Count;
@@ -346,7 +345,7 @@ public class CarAgent : Agent
         CalculateIfAtTarget();
         CalculateSideOfRoadReward();
         CalculateIfFollowedCorrectInsturction();
-      
+
         /*
         else if (this.transform.localPosition.y < 0.03)
         {
@@ -356,25 +355,27 @@ public class CarAgent : Agent
             EndEpisode();
         }
         */
-        
+
         if (touchingWall)
         {
             AddReward(-rewardTouchingWall * rewardNegativeMutliplier);
             rTouchingWall += -rewardTouchingWall * rewardNegativeMutliplier;
         }
+
+        Vector3 PositionOfClosestPoint = CalculateClosestPointOnNextNode();
+        float distanceToNextNode = Mathf.Abs(Vector3.Magnitude(PositionOfClosestPoint - transform.position));
+        if (Route.Count > 1)
+        {
+            Vector3 directionToNode = (PositionOfClosestPoint - transform.position).normalized;
+            float angleToNode = Vector3.SignedAngle(transform.forward, directionToNode, Vector3.up) / 180f;
+            float reward = 1.0f - Mathf.Abs(angleToNode) / 180.0f; // Closer to 0° = more reward
+            AddReward((reward - 0.994f) * 0.005f);
+            rTurn += (reward - 0.994f) * 0.005f;
+        }
         //Todo, think about if I want to keep training wheels
         if (TrainingWheels)
         {
-            Vector3 PositionOfClosestPoint = CalculateClosestPointOnNextNode();
-            float distanceToNextNode = Mathf.Abs(Vector3.Magnitude(PositionOfClosestPoint - transform.position));
-            if (Route.Count > 1)
-            {
-                Vector3 directionToNode = (PositionOfClosestPoint - transform.position).normalized;
-                float angleToNode = Vector3.SignedAngle(transform.forward, directionToNode, Vector3.up) / 180f;
-                float reward = 1.0f - Mathf.Abs(angleToNode) / 180.0f; // Closer to 0° = more reward
-                AddReward((reward - 0.994f) * 0.005f);
-                rTurn += (reward - 0.994f) * 0.005f;
-            }
+
             if (LastDistanceToNextNode != 0)
             {
                 float progressReward = ((LastDistanceToNextNode - distanceToNextNode) * Mathf.Exp(-timeAtCurrentNode * decayFactor)) / 80f;
@@ -383,8 +384,8 @@ public class CarAgent : Agent
             }
             // Update last distance
             LastDistanceToNextNode = distanceToNextNode;
+
         }
-      
     }
 
     private void CalculateIfAtTarget()
@@ -411,7 +412,7 @@ public class CarAgent : Agent
         float rotation = transform.rotation.eulerAngles.y;
         float deltaX = transform.position.x - Route[0].transform.position.x;
         float deltaZ = transform.position.z - Route[0].transform.position.z;
-       
+
 
         if (nodeType == NodeType.NorthSouth)
         {
@@ -634,7 +635,8 @@ public class CarAgent : Agent
         {
             AddReward(rewardCorrectSide);
             rCorrectSide += rewardCorrectSide;
-        } else
+        }
+        else
         {
             AddReward(-rewardCorrectSide * rewardNegativeMutliplier);
             rCorrectSide += -rewardCorrectSide * rewardNegativeMutliplier;
@@ -793,6 +795,7 @@ public class CarAgent : Agent
         //Face towards left path
 
         transform.rotation = Quaternion.LookRotation(Route[1].transform.position - transform.position);
+        transform.position -= transform.right * 5;
 
     }
 
@@ -803,7 +806,7 @@ public class CarAgent : Agent
         do
         {
             random = grid.GetRandomNode();
-          //  Debug.Log(" mag " + (random.transform.position - Target.transform.position).magnitude + " " + random.transform.position + " " + Target.transform.position);
+            //  Debug.Log(" mag " + (random.transform.position - Target.transform.position).magnitude + " " + random.transform.position + " " + Target.transform.position);
         } while ((random.transform.position - Target.transform.position).magnitude < 40);
         transform.position = random.transform.position + new Vector3(0f, 0.3f, 0f);
     }
