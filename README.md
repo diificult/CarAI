@@ -41,7 +41,7 @@ This projects goal is to create a self driving car that follows SatNav instructi
 Current State of Project:
 The AI is able to get to goals quickly and efficently while avoiding walls. It is also able to turn around if required.
 
-This project is on pause as of: [DATE OF PAUSE] and will be returned to.
+This project is on pause as of: 18.03.2025 and will be returned to.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -56,13 +56,13 @@ This project is on pause as of: [DATE OF PAUSE] and will be returned to.
 
 ## Getting Started
 
-Project is not yet been created for standalone
+Project is not yet been created for standalone. However, you can download the project, load it into unity and train the AI yourself. Instructions to come
 
 <!-- USAGE EXAMPLES -->
 
 ## Demo
 
-TODO
+[Demo](https://youtu.be/QrEnhz7E3OY)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -73,9 +73,8 @@ TODO
 ### Goals
 
 -   [x] AI starts in random location and ends at random location
--   [ ] AI has to go to 3 different goals
 -   [ ] Real World Environment
-    -   [ ] AI sticks to one side of the road
+    -   [x] AI sticks to one side of the road
     -   [ ] AI can follow traffic lights
     -   [ ] Multiple AI's on the road that avoid each other
 
